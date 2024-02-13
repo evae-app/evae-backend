@@ -6,6 +6,7 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -13,6 +14,7 @@ import java.util.Objects;
 @Setter
 @Embeddable
 public class DroitId implements Serializable {
+    @Serial
     private static final long serialVersionUID = 387959049464575440L;
     @Column(name = "ID_EVALUATION", nullable = false)
     private Integer idEvaluation;

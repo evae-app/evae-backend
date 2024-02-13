@@ -46,6 +46,12 @@ public class UserService {
 	@Autowired
 	private UserRepository userrepos;
 
+	public UserService(AuthenticationManager authenticationManager, CustomerUserDetailsService customerUserDetailsService, JwtUtil jwtUtil) {
+		this.authenticationManager = authenticationManager;
+		this.customerUserDetailsService = customerUserDetailsService;
+		this.jwtUtil = jwtUtil;
+	}
+
 	public ResponseEntity<String> inscrireUtilisateur(Map<String, String> requestMap) {
 		System.out.println("Request Map: " + requestMap);
 		System.out.println("Validation Result: " + validateSignUpMap(requestMap));
@@ -93,6 +99,7 @@ public class UserService {
 	private User getUserFromMap(Map<String, String> requestMap) {
 		User user = new User();
 		Role role = Role.valueOf(requestMap.get("role"));
+		user.setId(Integer.parseInt(requestMap.get("id")));
 		user.setName(requestMap.get("name"));
 		user.setPrenom(requestMap.get("prenom"));
 		user.setContactnumber(requestMap.get("contactnumber"));

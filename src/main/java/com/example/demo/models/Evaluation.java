@@ -21,7 +21,7 @@ public class Evaluation {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
-            @JoinColumn(name = "CODE_FORMATION", referencedColumnName = "CODE_FORMATION", nullable = false),
+            @JoinColumn(name = "CODE_FORMATION_EC", referencedColumnName = "CODE_FORMATION", nullable = false),
             @JoinColumn(name = "CODE_UE", referencedColumnName = "CODE_UE", nullable = false),
             @JoinColumn(name = "CODE_EC", referencedColumnName = "CODE_EC", nullable = false)
     })
@@ -29,7 +29,7 @@ public class Evaluation {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
-            @JoinColumn(name = "CODE_FORMATION", referencedColumnName = "ANNEE_UNIVERSITAIRE", nullable = false),
+            @JoinColumn(name = "CODE_FORMATION_PROMO", referencedColumnName = "ANNEE_UNIVERSITAIRE", nullable = false),
             @JoinColumn(name = "ANNEE_UNIVERSITAIRE", referencedColumnName = "CODE_FORMATION", nullable = false)
     })
     private Promotion promotion;

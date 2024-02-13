@@ -1,1 +1,36 @@
 
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout du dépôt
+        uses: actions/checkout@v2
+
+      - name: Configuration de Java
+        uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '17'
+
+      - name: Donner des permissions d'exécution au script Maven
+        run: chmod +x mvnw
+
+      - name: Construction de l'application Spring Boot avec Maven
+        run: ./mvnw clean package -DskipTests
+
+      - name: Construction de l'image Docker
+        run: docker build -t siyourself/evae_back:latest .
+
+      - name: Connexion à Docker Hub
+        run: docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Push de l'image Docker avec tag
+        run: docker push siyourself/evae_back:latest

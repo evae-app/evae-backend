@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "QUALIFICATIF")
+@Table(name = "QUALIFICATIF", schema = "SPI")
 public class Qualificatif {
     @Id
     @Column(name = "ID_QUALIFICATIF", nullable = false)

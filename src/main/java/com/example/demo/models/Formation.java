@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "FORMATION")
+@Table(name = "FORMATION", schema = "SPI")
 public class Formation {
     @Id
     @Column(name = "CODE_FORMATION", nullable = false, length = 8)

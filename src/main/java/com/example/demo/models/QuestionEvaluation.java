@@ -3,28 +3,28 @@ package com.example.demo.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "QUESTION_EVALUATION")
+@Table(name = "QUESTION_EVALUATION", schema = "SPI")
 public class QuestionEvaluation {
     @Id
     @Column(name = "ID_QUESTION_EVALUATION", nullable = false)
     private Integer id;
 
-    @Column(name = "ID_RUBRIQUE_EVALUATION", nullable = false)
-    private Integer idRubriqueEvaluation;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ID_RUBRIQUE_EVALUATION", nullable = false)
+    private RubriqueEvaluation idRubriqueEvaluation;
 
-    @Column(name = "ID_QUESTION")
-    private Integer idQuestion;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_QUESTION")
+    private Question idQuestion;
 
-    @Column(name = "ID_QUALIFICATIF")
-    private Integer idQualificatif;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ID_QUALIFICATIF")
+    private Qualificatif idQualificatif;
 
     @Column(name = "ORDRE", nullable = false)
     private Short ordre;

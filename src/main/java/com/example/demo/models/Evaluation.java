@@ -3,35 +3,36 @@ package com.example.demo.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "EVALUATION")
+@Table(name = "EVALUATION", schema = "SPI")
 public class Evaluation {
     @Id
     @Column(name = "ID_EVALUATION", nullable = false)
     private Integer id;
 
-    @Column(name = "NO_ENSEIGNANT", nullable = false)
-    private Short noEnseignant;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "NO_ENSEIGNANT", nullable = false)
+    private Enseignant noEnseignant;
 
-    @Column(name = "CODE_FORMATION", nullable = false, length = 8)
-    private String codeFormation;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CODE_FORMATION", referencedColumnName = "CODE_FORMATION", nullable = false),
+            @JoinColumn(name = "CODE_UE", referencedColumnName = "CODE_UE", nullable = false),
+            @JoinColumn(name = "CODE_EC", referencedColumnName = "CODE_EC", nullable = false)
+    })
+    private ElementConstitutif elementConstitutif;
 
-    @Column(name = "ANNEE_UNIVERSITAIRE", nullable = false, length = 10)
-    private String anneeUniversitaire;
-
-    @Column(name = "CODE_UE", nullable = false, length = 8)
-    private String codeUe;
-
-    @Column(name = "CODE_EC", length = 8)
-    private String codeEc;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CODE_FORMATION", referencedColumnName = "ANNEE_UNIVERSITAIRE", nullable = false),
+            @JoinColumn(name = "ANNEE_UNIVERSITAIRE", referencedColumnName = "CODE_FORMATION", nullable = false)
+    })
+    private Promotion promotion;
 
     @Column(name = "NO_EVALUATION", nullable = false)
     private Short noEvaluation;

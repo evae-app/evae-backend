@@ -3,22 +3,25 @@ package com.example.demo.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "PROMOTION")
+@Table(name = "PROMOTION", schema = "SPI")
 public class Promotion {
     @EmbeddedId
     private PromotionId id;
 
-    @Column(name = "NO_ENSEIGNANT")
-    private Short noEnseignant;
+    @MapsId("codeFormation")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "CODE_FORMATION", nullable = false)
+    private Formation codeFormation;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "NO_ENSEIGNANT")
+    private Enseignant noEnseignant;
 
     @Column(name = "SIGLE_PROMOTION", length = 16)
     private String siglePromotion;

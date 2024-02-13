@@ -3,26 +3,24 @@ package com.example.demo.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "ETUDIANT")
+@Table(name = "ETUDIANT", schema = "SPI")
 public class Etudiant {
     @Id
     @Column(name = "NO_ETUDIANT", nullable = false, length = 50)
     private String noEtudiant;
 
-    @Column(name = "CODE_FORMATION", nullable = false, length = 8)
-    private String codeFormation;
-
-    @Column(name = "ANNEE_UNIVERSITAIRE", nullable = false, length = 10)
-    private String anneeUniversitaire;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
+            @JoinColumn(name = "CODE_FORMATION", referencedColumnName = "ANNEE_UNIVERSITAIRE", nullable = false),
+            @JoinColumn(name = "ANNEE_UNIVERSITAIRE", referencedColumnName = "CODE_FORMATION", nullable = false)
+    })
+    private Promotion promotion;
 
     @Column(name = "NOM", nullable = false, length = 50)
     private String nom;

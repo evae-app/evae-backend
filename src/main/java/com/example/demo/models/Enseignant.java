@@ -11,7 +11,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @Entity
-@Table(name = "ENSEIGNANT")
+@Table(name = "ENSEIGNANT", schema = "SPI")
 public class Enseignant {
     @Id
     @Column(name = "NO_ENSEIGNANT", nullable = false)

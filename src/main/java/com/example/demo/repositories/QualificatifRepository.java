@@ -7,7 +7,8 @@ import org.springframework.data.repository.query.Param;
 import com.example.demo.models.Qualificatif;
 
 public interface QualificatifRepository extends JpaRepository<Qualificatif, Integer> {
-	
+    @Query("select qf from Qualificatif qf where qf.minimal = :minimal")
+    Qualificatif findByMinmal(@Param("minimal") String minimal);
 
 
 }

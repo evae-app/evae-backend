@@ -3,10 +3,7 @@ package com.example.demo.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Getter
 @Setter
@@ -14,6 +11,8 @@ import javax.persistence.Table;
 @Table(name = "CG_REF_CODES", schema = "SPI")
 public class CgRefCode {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CG_REF_CODES_id_gen")
+    @SequenceGenerator(name = "CG_REF_CODES_id_gen", sequenceName = "CGRC_SEQ", allocationSize = 1)
     @Column(name = "ID_CGRC", nullable = false)
     private Long id;
 

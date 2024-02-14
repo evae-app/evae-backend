@@ -14,6 +14,7 @@ import java.util.Set;
 @Table(name = "FORMATION", schema = "SPI")
 public class Formation {
     @Id
+    @SequenceGenerator(name = "FORMATION_id_gen", sequenceName = "AUT_SEQ", allocationSize = 1)
     @Column(name = "CODE_FORMATION", nullable = false, length = 8)
     private String codeFormation;
 

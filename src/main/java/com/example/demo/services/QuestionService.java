@@ -67,12 +67,12 @@ public class QuestionService {
             		if(!requestMap.get("intitule").isEmpty()) {
             			Question question1 = questionRepository.findByIntitule(requestMap.get("intitule"));
             			Qualificatif qualificatif = qualificatifRepository.findByMinmal(requestMap.get("minimal"));
-            			
+            			System.out.println("Qualificatif :"+ qualificatif);
                         if (Objects.isNull(question1)) {
                         	Question question = new Question();
                         	question.setIntitule(requestMap.get("intitule"));
                         	question.setNoEnseignant(null);
-                        	question.setId(Integer.parseInt(requestMap.get("id")));
+                        	//question.setId(null);
                         	question.setIdQualificatif(qualificatif);
                         	question.setType("standard");
                         	
@@ -102,7 +102,7 @@ public class QuestionService {
 	public ResponseEntity<List<QuestionDTO>> getQuestions(){
 		try {
 			if(jwtFilter.isAdmin()) {
-				List<com.example.demo.models.Question> questions = questionRepository.findAll();
+				List<Question> questions = questionRepository.findAll();
 				List<QuestionDTO> QuestionDTOs = new ArrayList<>();
 
 	            for (Question question : questions) {

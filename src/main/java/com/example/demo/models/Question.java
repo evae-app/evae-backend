@@ -13,6 +13,9 @@ import java.util.Set;
 @Table(name = "QUESTION", schema = "SPI")
 public class Question {
     @Id
+    /*@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "QUESTION_id_gen")
+    @SequenceGenerator(name = "QUESTION_id_gen", sequenceName = "QUE_SEQ", allocationSize = 1)*/
+    @GeneratedValue
     @Column(name = "ID_QUESTION", nullable = false)
     private Integer id;
 

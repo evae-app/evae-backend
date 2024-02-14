@@ -14,6 +14,8 @@ import java.util.Set;
 @Table(name = "EVALUATION", schema = "SPI")
 public class Evaluation {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EVALUATION_id_gen")
+    @SequenceGenerator(name = "EVALUATION_id_gen", sequenceName = "EVE_SEQ", allocationSize = 1)
     @Column(name = "ID_EVALUATION", nullable = false)
     private Integer id;
 
@@ -55,7 +57,7 @@ public class Evaluation {
     @Column(name = "FIN_REPONSE", nullable = false)
     private LocalDate finReponse;
 
-    @OneToMany(mappedBy = "evaluation")
+    @OneToMany(mappedBy = "idEvaluation")
     private Set<Droit> droits = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idEvaluation")

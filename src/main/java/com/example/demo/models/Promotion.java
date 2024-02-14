@@ -13,6 +13,7 @@ import java.util.Set;
 @Entity
 @Table(name = "PROMOTION", schema = "SPI")
 public class Promotion {
+    @SequenceGenerator(name = "PROMOTION_id_gen", sequenceName = "AUT_SEQ", allocationSize = 1)
     @EmbeddedId
     private PromotionId id;
 

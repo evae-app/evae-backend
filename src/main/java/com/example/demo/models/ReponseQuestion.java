@@ -10,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "REPONSE_QUESTION", schema = "SPI")
 public class ReponseQuestion {
+    @SequenceGenerator(name = "REPONSE_QUESTION_id_gen", sequenceName = "AUT_SEQ", allocationSize = 1)
     @EmbeddedId
     private ReponseQuestionId id;
 

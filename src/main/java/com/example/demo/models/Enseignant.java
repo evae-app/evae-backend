@@ -13,6 +13,7 @@ import java.util.Set;
 @Table(name = "ENSEIGNANT", schema = "SPI")
 public class Enseignant {
     @Id
+    @SequenceGenerator(name = "ENSEIGNANT_id_gen", sequenceName = "ENS_SEQ", allocationSize = 1)
     @Column(name = "NO_ENSEIGNANT", nullable = false)
     private Short id;
 
@@ -55,7 +56,7 @@ public class Enseignant {
     @OneToMany(mappedBy = "noEnseignant")
     private Set<Authentification> authentifications = new LinkedHashSet<>();
 
-    @OneToMany(mappedBy = "enseignant")
+    @OneToMany(mappedBy = "noEnseignant")
     private Set<Droit> droits = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "noEnseignant")

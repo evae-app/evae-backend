@@ -11,6 +11,8 @@ import javax.persistence.*;
 @Table(name = "AUTHENTIFICATION", schema = "SPI")
 public class Authentification {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AUTHENTIFICATION_id_gen")
+    @SequenceGenerator(name = "AUTHENTIFICATION_id_gen", sequenceName = "AUT_SEQ", allocationSize = 1)
     @Column(name = "ID_CONNECTION", nullable = false)
     private Long id;
 

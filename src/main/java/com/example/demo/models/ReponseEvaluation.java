@@ -13,6 +13,8 @@ import java.util.Set;
 @Table(name = "REPONSE_EVALUATION", schema = "SPI")
 public class ReponseEvaluation {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "REPONSE_EVALUATION_id_gen")
+    @SequenceGenerator(name = "REPONSE_EVALUATION_id_gen", sequenceName = "RPE_SEQ", allocationSize = 1)
     @Column(name = "ID_REPONSE_EVALUATION", nullable = false)
     private Integer id;
 

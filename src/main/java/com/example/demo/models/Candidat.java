@@ -12,6 +12,7 @@ import java.time.LocalDate;
 @Table(name = "CANDIDAT", schema = "SPI")
 public class Candidat {
     @Id
+    @SequenceGenerator(name = "CANDIDAT_id_gen", sequenceName = "AUT_SEQ", allocationSize = 1)
     @Column(name = "NO_CANDIDAT", nullable = false, length = 50)
     private String noCandidat;
 

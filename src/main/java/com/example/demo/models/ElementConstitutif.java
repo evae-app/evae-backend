@@ -12,6 +12,7 @@ import java.util.Set;
 @Entity
 @Table(name = "ELEMENT_CONSTITUTIF", schema = "SPI")
 public class ElementConstitutif {
+    @SequenceGenerator(name = "ELEMENT_CONSTITUTIF_id_gen", sequenceName = "AUT_SEQ", allocationSize = 1)
     @EmbeddedId
     private ElementConstitutifId id;
 

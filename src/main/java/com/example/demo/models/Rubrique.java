@@ -13,6 +13,8 @@ import java.util.Set;
 @Table(name = "RUBRIQUE", schema = "SPI")
 public class Rubrique {
     @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RUBRIQUE_id_gen")
+    @SequenceGenerator(name = "RUBRIQUE_id_gen", sequenceName = "RUB_SEQ", allocationSize = 1)
     @Column(name = "ID_RUBRIQUE", nullable = false)
     private Integer id;
 

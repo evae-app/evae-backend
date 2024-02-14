@@ -1,9 +1,14 @@
 package com.example.demo.models;
 
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
-
+@Getter
+@Setter
 @Entity
 @Table(name = "QUESTION", schema = "SPI")
 public class Question {
@@ -25,45 +30,10 @@ public class Question {
     @Column(name = "INTITULE", nullable = false, length = 64)
     private String intitule;
 
-	public Integer getId() {
-		return id;
-	}
+    @OneToMany(mappedBy = "idQuestion")
+    private Set<QuestionEvaluation> questionEvaluations = new LinkedHashSet<>();
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @OneToMany(mappedBy = "idQuestion")
+    private Set<RubriqueQuestion> rubriqueQuestions = new LinkedHashSet<>();
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-	public Enseignant getNoEnseignant() {
-		return noEnseignant;
-	}
-
-	public void setNoEnseignant(Enseignant noEnseignant) {
-		this.noEnseignant = noEnseignant;
-	}
-
-	public Qualificatif getIdQualificatif() {
-		return idQualificatif;
-	}
-
-	public void setIdQualificatif(Qualificatif idQualificatif) {
-		this.idQualificatif = idQualificatif;
-	}
-
-	public String getIntitule() {
-		return intitule;
-	}
-
-	public void setIntitule(String intitule) {
-		this.intitule = intitule;
-	}
-    
-    
 }

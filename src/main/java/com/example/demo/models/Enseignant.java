@@ -3,10 +3,9 @@ package com.example.demo.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -52,5 +51,29 @@ public class Enseignant {
 
     @Column(name = "EMAIL_PERSO")
     private String emailPerso;
+
+    @OneToMany(mappedBy = "noEnseignant")
+    private Set<Authentification> authentifications = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "enseignant")
+    private Set<Droit> droits = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "noEnseignant")
+    private Set<ElementConstitutif> elementConstitutifs = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "noEnseignant")
+    private Set<Evaluation> evaluations = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "noEnseignant")
+    private Set<Promotion> promotions = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "noEnseignant")
+    private Set<Question> questions = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "noEnseignant")
+    private Set<Rubrique> rubriques = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "noEnseignant")
+    private Set<UniteEnseignement> uniteEnseignements = new LinkedHashSet<>();
 
 }

@@ -6,7 +6,6 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -14,7 +13,6 @@ import java.util.Objects;
 @Setter
 @Embeddable
 public class PromotionId implements Serializable {
-    @Serial
     private static final long serialVersionUID = 1829978518717801828L;
     @Column(name = "CODE_FORMATION", nullable = false, length = 8)
     private String codeFormation;

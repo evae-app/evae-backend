@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -31,5 +33,8 @@ public class QuestionEvaluation {
 
     @Column(name = "INTITULE", length = 64)
     private String intitule;
+
+    @OneToMany(mappedBy = "idQuestionEvaluation")
+    private Set<ReponseQuestion> reponseQuestions = new LinkedHashSet<>();
 
 }

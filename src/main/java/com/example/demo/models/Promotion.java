@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -46,5 +48,14 @@ public class Promotion {
 
     @Column(name = "COMMENTAIRE")
     private String commentaire;
+
+    @OneToMany(mappedBy = "promotion")
+    private Set<Candidat> candidats = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "promotion")
+    private Set<Etudiant> etudiants = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "promotion")
+    private Set<Evaluation> evaluations = new LinkedHashSet<>();
 
 }

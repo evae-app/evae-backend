@@ -5,17 +5,15 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @Getter
 @Setter
 @Entity
-@Table(name = "ETUDIANT", schema = "SPI")
-public class Etudiant {
+@Table(name = "CANDIDAT", schema = "SPI")
+public class Candidat {
     @Id
-    @Column(name = "NO_ETUDIANT", nullable = false, length = 50)
-    private String noEtudiant;
+    @Column(name = "NO_CANDIDAT", nullable = false, length = 50)
+    private String noCandidat;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
@@ -51,9 +49,6 @@ public class Etudiant {
     @Column(name = "EMAIL", nullable = false)
     private String email;
 
-    @Column(name = "EMAIL_UBO")
-    private String emailUbo;
-
     @Column(name = "ADRESSE", nullable = false)
     private String adresse;
 
@@ -69,16 +64,16 @@ public class Etudiant {
     @Column(name = "UNIVERSITE_ORIGINE", nullable = false, length = 6)
     private String universiteOrigine;
 
-    @Column(name = "GROUPE_TP")
-    private Long groupeTp;
+    @Column(name = "LISTE_SELECTION", length = 6)
+    private String listeSelection;
 
-    @Column(name = "GROUPE_ANGLAIS")
-    private Long groupeAnglais;
+    @Column(name = "SELECTION_NO_ORDRE")
+    private Long selectionNoOrdre;
 
-    @OneToMany(mappedBy = "noEtudiant")
-    private Set<Authentification> authentifications = new LinkedHashSet<>();
+    @Column(name = "CONFIRMATION_CANDIDAT")
+    private Boolean confirmationCandidat;
 
-    @OneToMany(mappedBy = "noEtudiant")
-    private Set<ReponseEvaluation> reponseEvaluations = new LinkedHashSet<>();
+    @Column(name = "DATE_REPONSE_CANDIDAT")
+    private LocalDate dateReponseCandidat;
 
 }

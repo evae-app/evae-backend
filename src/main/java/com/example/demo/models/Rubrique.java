@@ -4,6 +4,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -26,5 +28,11 @@ public class Rubrique {
 
     @Column(name = "ORDRE")
     private Long ordre;
+
+    @OneToMany(mappedBy = "idRubrique")
+    private Set<RubriqueEvaluation> rubriqueEvaluations = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "idRubrique")
+    private Set<RubriqueQuestion> rubriqueQuestions = new LinkedHashSet<>();
 
 }

@@ -5,6 +5,8 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -21,16 +23,17 @@ public class Evaluation {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
-            @JoinColumn(name = "CODE_FORMATION_EC", referencedColumnName = "CODE_FORMATION", nullable = false),
+            @JoinColumn(name = "CODE_FORMATION", referencedColumnName = "CODE_FORMATION", nullable = false),
             @JoinColumn(name = "CODE_UE", referencedColumnName = "CODE_UE", nullable = false),
             @JoinColumn(name = "CODE_EC", referencedColumnName = "CODE_EC", nullable = false)
     })
     private ElementConstitutif elementConstitutif;
 
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
-            @JoinColumn(name = "CODE_FORMATION_PROMO", referencedColumnName = "ANNEE_UNIVERSITAIRE", nullable = false),
-            @JoinColumn(name = "ANNEE_UNIVERSITAIRE", referencedColumnName = "CODE_FORMATION", nullable = false)
+            @JoinColumn(name = "CODE_FORMATION", referencedColumnName = "CODE_FORMATION", insertable = false , updatable = false ),
+            @JoinColumn(name = "ANNEE_UNIVERSITAIRE", referencedColumnName = "ANNEE_UNIVERSITAIRE", insertable = false , updatable = false )
     })
     private Promotion promotion;
 
@@ -51,5 +54,14 @@ public class Evaluation {
 
     @Column(name = "FIN_REPONSE", nullable = false)
     private LocalDate finReponse;
+
+    @OneToMany(mappedBy = "evaluation")
+    private Set<Droit> droits = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "idEvaluation")
+    private Set<ReponseEvaluation> reponseEvaluations = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "idEvaluation")
+    private Set<RubriqueEvaluation> rubriqueEvaluations = new LinkedHashSet<>();
 
 }

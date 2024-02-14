@@ -16,12 +16,12 @@ public class Droit {
     @MapsId("idEvaluation")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_EVALUATION", nullable = false)
-    private Evaluation idEvaluation;
+    private Evaluation evaluation;
 
     @MapsId("noEnseignant")
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "NO_ENSEIGNANT", nullable = false)
-    private Enseignant noEnseignant;
+    private Enseignant enseignant;
 
     @Column(name = "CONSULTATION", nullable = false)
     private Boolean consultation = false;

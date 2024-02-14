@@ -3,11 +3,10 @@ package com.example.demo.models;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -35,5 +34,11 @@ public class Formation {
 
     @Column(name = "FIN_ACCREDITATION")
     private LocalDate finAccreditation;
+
+    @OneToMany(mappedBy = "codeFormation")
+    private Set<Promotion> promotions = new LinkedHashSet<>();
+
+    @OneToMany(mappedBy = "codeFormation")
+    private Set<UniteEnseignement> uniteEnseignements = new LinkedHashSet<>();
 
 }

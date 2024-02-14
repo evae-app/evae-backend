@@ -24,7 +24,7 @@ jobs:
         run: chmod +x mvnw
 
       - name: Construction de l'application Spring Boot avec Maven
-        run: ./mvnw clean package -DskipTests
+        run: ./mvnw clean package -X
 
       - name: Construction de l'image Docker
         run: docker build -t siyourself/evae_back:latest .

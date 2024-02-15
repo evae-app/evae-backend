@@ -1,6 +1,5 @@
 package com.example.demo.services;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +17,11 @@ import com.example.demo.JWT.CustomerUserDetailsService;
 import com.example.demo.JWT.JwtFilter;
 import com.example.demo.JWT.JwtUtil;
 import com.example.demo.constants.EvaeBackendConstants;
-import com.example.demo.models.Role;
-import com.example.demo.models.User;
+import com.example.demo.models.Authentification;
+import com.example.demo.models.Enseignant;
+import com.example.demo.models.Etudiant;
+import com.example.demo.repositories.EnseignantRepository;
+import com.example.demo.repositories.EtudiantRepository;
 import com.example.demo.repositories.UserRepository;
 import com.example.demo.utils.EmailUtils;
 import com.example.demo.utils.BackendUtils;
@@ -46,6 +48,12 @@ public class UserService {
 	@Autowired
 	private UserRepository userrepos;
 
+	@Autowired
+	EnseignantRepository enseignantRepository;
+
+	@Autowired
+	EtudiantRepository etudiantRepository;
+
 	public UserService(AuthenticationManager authenticationManager, CustomerUserDetailsService customerUserDetailsService, JwtUtil jwtUtil) {
 		this.authenticationManager = authenticationManager;
 		this.customerUserDetailsService = customerUserDetailsService;
@@ -58,7 +66,7 @@ public class UserService {
 		try {
 			if (validateSignUpMap(requestMap)) {
 
-				User user = userrepos.findByEmail(requestMap.get("email"));
+				Authentification user = userrepos.findByEmail(requestMap.get("loginConnection"));
 				if (Objects.isNull(user)) {
 					userrepos.save(getUserFromMap(requestMap));
 					return BackendUtils.getResponseEntity("Successfully Registered", HttpStatus.OK);
@@ -75,17 +83,15 @@ public class UserService {
 	}
 
 	private boolean validateSignUpMap(Map<String, String> requestMap) {
-		if (requestMap.containsKey("name") && requestMap.containsKey("contactnumber") && requestMap.containsKey("email")
-				&& requestMap.containsKey("password") && requestMap.containsKey("adresse")
-				&& requestMap.containsKey("prenom") && requestMap.containsKey("role")
-				&& requestMap.containsKey("prenom")) {
-			if (requestMap.get("name") != "" && !TestService.isInteger(requestMap.get("name"))
-					&& !TestService.isStartWithNumber(requestMap.get("name")) && requestMap.get("email") != ""
-					&& !TestService.isInteger(requestMap.get("email")) && requestMap.get("adresse") != ""
-					&& !TestService.isInteger(requestMap.get("adresse")) && requestMap.get("prenom") != ""
-					&& !TestService.isInteger(requestMap.get("prenom"))
-					&& !TestService.isStartWithNumber(requestMap.get("prenom")) && requestMap.get("role") != ""
-					&& !TestService.isInteger(requestMap.get("role"))
+		if (requestMap.containsKey("loginConnection") && requestMap.containsKey("pseudoConnection")
+				&& requestMap.containsKey("motpasse")
+				&& requestMap.containsKey("role")
+		) {
+			if (requestMap.get("pseudoConnection") != "" && !TestService.isInteger(requestMap.get("pseudoConnection"))
+					&& !TestService.isStartWithNumber(requestMap.get("loginConnection")) && requestMap.get("loginConnection") != ""
+					&& requestMap.get("idEnseignant") != ""
+					&& !TestService.isInteger(requestMap.get("noEtudiant")) && requestMap.get("noEtudiant") != ""
+					&& requestMap.get("role") != "" && !TestService.isInteger(requestMap.get("role"))
 					&& !TestService.isStartWithNumber(requestMap.get("role"))) {
 				return true;
 			} else {
@@ -96,36 +102,35 @@ public class UserService {
 		return false;
 	}
 
-	private User getUserFromMap(Map<String, String> requestMap) {
-		User user = new User();
-		Role role = Role.valueOf(requestMap.get("role"));
-		user.setId(Integer.parseInt(requestMap.get("id")));
-		user.setName(requestMap.get("name"));
-		user.setPrenom(requestMap.get("prenom"));
-		user.setContactnumber(requestMap.get("contactnumber"));
-		user.setEmail(requestMap.get("email"));
-		user.setPassword(requestMap.get("password"));
-		user.setAdresse(requestMap.get("adresse"));
-		user.setDateInscription(LocalDate.now());
-		user.setRole(role);
+	private Authentification getUserFromMap(Map<String, String> requestMap) {
+		//Enseignant ens = enseignantRepository.findById(Short.parseShort(requestMap.get("idEnseignant"))).get();
+		//Etudiant etu = etudiantRepository.findByNoEtudiant(requestMap.get("noEtudiant"));
+		Authentification user = new Authentification();
+		user.setPseudoConnection(requestMap.get("pseudoConnection"));
+		user.setLoginConnection(requestMap.get("loginConnection"));
+		user.setMotPasse(requestMap.get("motpasse"));
+		user.setNoEnseignant(null);
+		user.setNoEtudiant(null);
+		user.setRole(requestMap.get("role"));
+
 		return user;
 	}
 
 	public ResponseEntity<String> login(Map<String, String> requestMap) {
 		System.out.println("Inside login");
 		try {
-			if (!requestMap.containsKey("email") || !requestMap.containsKey("password")) {
+			if (!requestMap.containsKey("loginConnection") || !requestMap.containsKey("motpasse")) {
 				return new ResponseEntity<String>("{\"message\":\"" + "Bad Credentials." + "\"}",
 						HttpStatus.BAD_REQUEST);
 			} else {
 				Authentication auth = authenticationManager.authenticate(
-						new UsernamePasswordAuthenticationToken(requestMap.get("email"), requestMap.get("password")));
+						new UsernamePasswordAuthenticationToken(requestMap.get("loginConnection"), requestMap.get("motpasse")));
 
 				if (auth.isAuthenticated()) {
 					return new ResponseEntity<String>(
 							"{\"token\":\""
-									+ jwtUtil.generateToken(customerUserDetailsService.getUserDetails().getEmail(),
-											customerUserDetailsService.getUserDetails().getRole().toString())
+									+ jwtUtil.generateToken(customerUserDetailsService.getUserDetails().getLoginConnection(),
+									customerUserDetailsService.getUserDetails().getRole())
 									+ "\"}",
 							HttpStatus.OK);
 				}
@@ -143,10 +148,10 @@ public class UserService {
 
 	public ResponseEntity<String> changePassword(Map<String, String> requestMap) {
 		try {
-			User userObj = userrepos.findByEmail(jwtFilter.getCurrentuser());
+			Authentification userObj = userrepos.findByEmail(jwtFilter.getCurrentuser());
 			if (!userObj.equals(null)) {
-				if (userObj.getPassword().equals(requestMap.get("oldPassword"))) {
-					userObj.setPassword(requestMap.get("newPassword"));
+				if (userObj.getMotPasse().equals(requestMap.get("oldPassword"))) {
+					userObj.setMotPasse(requestMap.get("newPassword"));
 					userrepos.save(userObj);
 					emailUtils.sendSimpleMessage(jwtFilter.getCurrentuser(), "Password changed",
 							"Account password is changed.", null);
@@ -164,10 +169,10 @@ public class UserService {
 
 	public ResponseEntity<String> forgotPassword(Map<String, String> requestMap) {
 		try {
-			User userObj = userrepos.findByEmail(requestMap.get("email"));
-			if (!Objects.isNull(userObj) && !Strings.isNullOrEmpty(userObj.getEmail())) {
-				emailUtils.forgotPasswordMail(userObj.getEmail(), "Your Login Credentials for Etron Management System",
-						userObj.getPassword());
+			Authentification userObj = userrepos.findByEmail(requestMap.get("pseudoConnection"));
+			if (!Objects.isNull(userObj) && !Strings.isNullOrEmpty(userObj.getLoginConnection())) {
+				emailUtils.forgotPasswordMail(userObj.getLoginConnection(), "Your Login Credentials for Etron Management System",
+						userObj.getMotPasse());
 			}
 			return BackendUtils.getResponseEntity("Check your mail box...", HttpStatus.OK);
 		} catch (Exception e) {
@@ -179,22 +184,21 @@ public class UserService {
 	public ResponseEntity<List<UserDTO>> getUsers() {
 		try {
 			if (jwtFilter.isAdmin()) {
-				List<User> users = userrepos.findAll();
+				List<Authentification> users = userrepos.findAll();
 				List<UserDTO> userDTOs = new ArrayList<>();
 
-				for (User user : users) {
+				for (Authentification user : users) {
 					UserDTO userDTO = new UserDTO();
 
 					// Map user data to the DTO
-					userDTO.setIdUser(user.getId());
-					userDTO.setName(user.getName());
-					userDTO.setPrenom(user.getPrenom());
-					userDTO.setEmail(user.getEmail());
-					userDTO.setContactnumber(user.getContactnumber());
-					userDTO.setAdresse(user.getAdresse());
+					userDTO.setId(user.getId());
+					userDTO.setLoginConnection(user.getLoginConnection());
+					userDTO.setMotPasse(user.getMotPasse());
+					userDTO.setNoEnseignant(user.getNoEnseignant());
+					userDTO.setNoEtudiant(user.getNoEtudiant());
+					userDTO.setPseudoConnection(user.getPseudoConnection());
 					userDTO.setRole(user.getRole());
-					userDTO.setDateInscription(user.getDateInscription());
-					userDTO.setPassword(user.getPassword());
+
 
 					userDTOs.add(userDTO);
 				}
@@ -213,31 +217,27 @@ public class UserService {
 		try {
 			System.out.println(requestMap);
 			if (jwtFilter.isAdmin()) {
-				if (requestMap.containsKey("name") && requestMap.containsKey("contactnumber")
-						&& requestMap.containsKey("email") && requestMap.containsKey("password")
-						&& requestMap.containsKey("adresse") && requestMap.containsKey("prenom")
-						&& requestMap.containsKey("role") && requestMap.containsKey("prenom")) {
-					if (!requestMap.get("name").isEmpty() && !requestMap.get("prenom").isEmpty()
-							&& !requestMap.get("adresse").isEmpty() && !requestMap.get("contactnumber").isEmpty()
-							&& !requestMap.get("role").isEmpty() && !requestMap.get("modeleVoiture").isEmpty()
-							&& !requestMap.get("email").isEmpty() && !requestMap.get("password").isEmpty()) {
-						if (!TestService.isInteger(requestMap.get("name"))
-								&& !TestService.isInteger(requestMap.get("prenom"))
-								&& !TestService.isInteger(requestMap.get("adresse"))
+				if (requestMap.containsKey("loginConnection") && requestMap.containsKey("idEnseignant")
+						&& requestMap.containsKey("pseudoConnection") && requestMap.containsKey("motpasse")
+						&& requestMap.containsKey("noEtudiant") && requestMap.containsKey("role") ) {
+					if (!requestMap.get("loginConnection").isEmpty()
+							&& !requestMap.get("role").isEmpty()
+							&& !requestMap.get("pseudoConnection").isEmpty() && !requestMap.get("motpasse").isEmpty()) {
+						if (!TestService.isInteger(requestMap.get("loginConnection"))
+								&& !TestService.isInteger(requestMap.get("noEtudiant"))
 								&& !TestService.isInteger(requestMap.get("role"))
-								&& !TestService.isInteger(requestMap.get("modeleVoiture"))
-								&& !TestService.isInteger(requestMap.get("email"))) {
-							User user = userrepos.findByEmail(requestMap.get("email"));
+								&& !TestService.isInteger(requestMap.get("pseudoConnection"))) {
+							Authentification user = userrepos.findByEmail(requestMap.get("pseudoConnection"));
+							Enseignant ens = enseignantRepository.findById(Short.parseShort(requestMap.get("idEnseignant"))).get();
+							Etudiant etu = etudiantRepository.findByNoEtudiant(requestMap.get("noEtudiant"));
 							if (user != null) {
-								Role role = Role.valueOf(requestMap.get("role"));
-								user.setName(requestMap.get("name"));
-								user.setPrenom(requestMap.get("prenom"));
-								user.setAdresse(requestMap.get("adresse"));
-								user.setContactnumber(requestMap.get("contactnumber"));
-								user.setRole(role);
-								user.setEmail(requestMap.get("email"));
-								user.setPassword(requestMap.get("password"));
-								// user.setDateInscription(LocalDate.parse(requestMap.get("dateInscritpion")));
+								user.setLoginConnection(requestMap.get("loginConnection"));;
+								user.setNoEnseignant(ens);
+								user.setNoEtudiant(etu);
+								user.setRole(requestMap.get("role"));
+								user.setPseudoConnection(requestMap.get("pseudoConnection"));
+								user.setMotPasse(requestMap.get("motpasse"));
+
 								userrepos.save(user);
 								return BackendUtils.getResponseEntity(EvaeBackendConstants.USER_STATUS, HttpStatus.OK);
 							} else {
@@ -266,7 +266,7 @@ public class UserService {
 		try {
 			if (jwtFilter.isAdmin()) {
 				if (TestService.intPositifNegatif(idUser)) {
-					User user = userrepos.findById(idUser);
+					Authentification user = userrepos.findById(idUser);
 					userrepos.delete(user);
 					return BackendUtils.getResponseEntity("User Deleted Successfully", HttpStatus.OK);
 				} else {
@@ -286,19 +286,17 @@ public class UserService {
 
 	public ResponseEntity<UserDTO> getUserByToken() {
 		try {
-			User user = userrepos.findByEmail(jwtFilter.getCurrentuser());
+			Authentification user = userrepos.findByEmail(jwtFilter.getCurrentuser());
 
 			UserDTO userDTO = new UserDTO();
 
-			userDTO.setIdUser(user.getId());
-			userDTO.setName(user.getName());
-			userDTO.setPrenom(user.getPrenom());
-			userDTO.setEmail(user.getEmail());
-			userDTO.setContactnumber(user.getContactnumber());
-			userDTO.setAdresse(user.getAdresse());
+			userDTO.setId(user.getId());
+			userDTO.setLoginConnection(user.getLoginConnection());
+			userDTO.setMotPasse(user.getMotPasse());
+			userDTO.setNoEnseignant(user.getNoEnseignant());
+			userDTO.setNoEtudiant(user.getNoEtudiant());
+			userDTO.setPseudoConnection(user.getPseudoConnection());
 			userDTO.setRole(user.getRole());
-			userDTO.setDateInscription(user.getDateInscription());
-			userDTO.setPassword(user.getPassword());
 
 
 			return new ResponseEntity<UserDTO>(userDTO, HttpStatus.OK);

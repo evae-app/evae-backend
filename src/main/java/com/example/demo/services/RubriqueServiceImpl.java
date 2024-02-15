@@ -66,8 +66,13 @@ public class RubriqueServiceImpl implements RubriqueService{
 
         if (optionalRubrique.isPresent()) {
             Rubrique existingRubrique = optionalRubrique.get();
-            Integer id = existingRubrique.getId();
-            updateRubrique(id,updatedRubrique);
+
+
+            existingRubrique.setType(updatedRubrique.getType());
+            existingRubrique.setNoEnseignant(updatedRubrique.getNoEnseignant());
+            existingRubrique.setDesignation(updatedRubrique.getDesignation());
+            existingRubrique.setOrdre(updatedRubrique.getOrdre());
+
             return rubriqueRepository.save(existingRubrique);
         } else {
             throw new NotFoundEntityException();

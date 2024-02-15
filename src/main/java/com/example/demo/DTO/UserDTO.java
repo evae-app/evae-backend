@@ -1,94 +1,81 @@
 package com.example.demo.DTO;
 
 
-import java.time.LocalDate;
-
-import com.example.demo.models.Role;
+import com.example.demo.models.Enseignant;
+import com.example.demo.models.Etudiant;
 
 public class UserDTO {
-	private int idUser;
-    private String name;
-    private String prenom;
-    private String email;
-    private String contactnumber;
-    private String adresse;
-    private Role role;
-    private String password;
-    private LocalDate dateInscription;
+    private Long id;
 
-    // Getters and setters for the fields
+    private String role;
 
-    public String getName() {
-        return name;
+    private String loginConnection;
+
+    private String pseudoConnection;
+
+    private String motPasse;
+
+    private Enseignant noEnseignant;
+
+    private Etudiant noEtudiant;
+
+    public Long getId() {
+        return id;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getPrenom() {
-        return prenom;
-    }
-
-    public void setPrenom(String prenom) {
-        this.prenom = prenom;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getContactnumber() {
-        return contactnumber;
-    }
-
-    public void setContactnumber(String contactnumber) {
-        this.contactnumber = contactnumber;
-    }
-
-    public String getAdresse() {
-        return adresse;
-    }
-
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
-    }
-
-    public Role getRole() {
+    public String getRole() {
         return role;
     }
 
-    public void setRole(Role role2) {
-        this.role = role2;
+    public void setRole(String role) {
+        this.role = role;
     }
 
-    public LocalDate getDateInscription() {
-        return dateInscription;
+    public String getLoginConnection() {
+        return loginConnection;
     }
 
-    public void setDateInscription(LocalDate dateInscription) {
-        this.dateInscription = dateInscription;
+    public void setLoginConnection(String loginConnection) {
+        this.loginConnection = loginConnection;
     }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPseudoConnection() {
+        return pseudoConnection;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPseudoConnection(String pseudoConnection) {
+        this.pseudoConnection = pseudoConnection;
+    }
 
-	public int getIdUser() {
-		return idUser;
-	}
+    public String getMotPasse() {
+        return motPasse;
+    }
 
-	public void setIdUser(int idUser) {
-		this.idUser = idUser;
-	}
-    
-	
+    public void setMotPasse(String motPasse) {
+        this.motPasse = motPasse;
+    }
+
+    public Enseignant getNoEnseignant() {
+        return noEnseignant;
+    }
+
+    public void setNoEnseignant(Enseignant noEnseignant) {
+        this.noEnseignant = noEnseignant;
+    }
+
+    public Etudiant getNoEtudiant() {
+        return noEtudiant;
+    }
+
+    public void setNoEtudiant(Etudiant noEtudiant) {
+        this.noEtudiant = noEtudiant;
+    }
+
+
+
+
 }

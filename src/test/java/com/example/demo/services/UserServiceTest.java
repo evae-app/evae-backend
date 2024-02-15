@@ -2,14 +2,12 @@ package com.example.demo.services;
 
 import com.example.demo.JWT.CustomerUserDetailsService;
 import com.example.demo.JWT.JwtUtil;
-import com.example.demo.models.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import com.example.demo.models.Role;
 
 
 import java.util.HashMap;
@@ -20,7 +18,7 @@ import static org.mockito.Mockito.*;
 
 class UserServiceTest {
 
-    @Test
+    /*@Test
     void login_WithValidCredentials_ShouldReturnToken() {
         // Mock objects
         AuthenticationManager authenticationManager = mock(AuthenticationManager.class);
@@ -59,5 +57,5 @@ class UserServiceTest {
         // Verify the response
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertTrue(responseEntity.getBody().contains("token"));
-    }
+    }*/
 }

@@ -5,16 +5,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import com.example.demo.models.User;
+import com.example.demo.models.Authentification;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Integer>{
-	
-	@Query("select u from User u where u.email = :email")
-	User findByEmail(@Param("email") String email);
-	
-	@Query("select u from User u where u.id = :idUser")
-	User findById(@Param("idUser") int idUser);
-	
+public interface UserRepository extends JpaRepository<Authentification, Long>{
+
+	@Query("select u from Authentification u where u.loginConnection = :loginConnection")
+	Authentification findByEmail(@Param("loginConnection") String loginConnection);
+
+	@Query("select u from Authentification u where u.id = :idUser")
+	Authentification findById(@Param("idUser") long idUser);
+
 
 }

@@ -23,13 +23,13 @@ public class JwtFilter extends OncePerRequestFilter {
 
 	@Autowired
 	private JwtUtil jwtUtil;
-	
+
 	@Autowired
 	private CustomerUserDetailsService  service;
-	
+
 	Claims claim = null;
 	private String userName = null;
-	
+
 	@Override
 	protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain)
 			throws ServletException, IOException {
@@ -40,13 +40,13 @@ public class JwtFilter extends OncePerRequestFilter {
 		else {
 			String autorizationHeader = httpServletRequest.getHeader("Authorization");
 			String token = null;
-			
+
 			if(autorizationHeader!=null && autorizationHeader.startsWith("Bearer ")) {
 				token = autorizationHeader.substring(7);
 				userName = jwtUtil.extractUsername(token);
 				claim = jwtUtil.extractAllClaims(token);
 			}
-			
+
 			if(userName!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
 				UserDetails userDetails = service.loadUserByUsername(userName);
 				if(jwtUtil.validateToken(token, userDetails)) {
@@ -58,25 +58,24 @@ public class JwtFilter extends OncePerRequestFilter {
 			filterChain.doFilter(httpServletRequest, httpServletResponse);
 		}
 	}
-	
+
 	public boolean isAdmin() {
 		return "admin".equalsIgnoreCase((String) claim.get("role"));
 	}
-	
+
 	public boolean isUser() {
 		return "user".equalsIgnoreCase((String) claim.get("role"));
 	}
-	
+
 	public boolean isEtudiant() {
-		return "etudiant".equalsIgnoreCase((String) claim.get("role"));
+		return "etu".equalsIgnoreCase((String) claim.get("role"));
 	}
-	
+
 	public boolean isEnseignant() {
-		return "enseignant".equalsIgnoreCase((String) claim.get("role"));
+		return "ens".equalsIgnoreCase((String) claim.get("role"));
 	}
-	
+
 	public String getCurrentuser() {
 		return userName;
 	}
 }
-

@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.JWT.CustomerUserDetailsService;
@@ -126,7 +127,7 @@ public class UserService {
 				Authentication auth = authenticationManager.authenticate(
 						new UsernamePasswordAuthenticationToken(requestMap.get("loginConnection"), requestMap.get("motpasse")));
 
-				if (auth.isAuthenticated()) {
+				if (auth != null && auth.isAuthenticated()) {
 					return new ResponseEntity<String>(
 							"{\"token\":\""
 									+ jwtUtil.generateToken(customerUserDetailsService.getUserDetails().getLoginConnection(),
@@ -136,11 +137,14 @@ public class UserService {
 				}
 			}
 
+		} catch (AuthenticationException e) {
+			e.printStackTrace();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return new ResponseEntity<String>("{\"message\":\"" + "Bad Credentials." + "\"}", HttpStatus.BAD_REQUEST);
 	}
+
 
 	public ResponseEntity<String> checkToken() {
 		return BackendUtils.getResponseEntity("true", HttpStatus.OK);

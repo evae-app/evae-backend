@@ -109,7 +109,13 @@ public class RubriqueServiceImpl implements RubriqueService{
 
 
     private boolean isRubriqueUsedInEvaluation(Rubrique rubrique) {
-        return !rubrique.getRubriqueEvaluations().isEmpty() || !rubrique.getRubriqueQuestions().isEmpty();
+        // Vérifier si rubrique est null
+        if (rubrique == null) {
+            return false; // Ou lancez une exception si nécessaire
+        }
+        // Utiliser la méthode isEmpty() sur la liste uniquement si elle n'est pas null
+        return rubrique.getRubriqueEvaluations() != null && !rubrique.getRubriqueEvaluations().isEmpty() ||
+                rubrique.getRubriqueQuestions() != null && !rubrique.getRubriqueQuestions().isEmpty();
     }
 
 

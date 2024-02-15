@@ -2,8 +2,11 @@ package com.example.demo.services;
 
 import com.example.demo.exception.DuplicateEntityException;
 import com.example.demo.exception.NotFoundEntityException;
+import com.example.demo.exception.UsedEntityException;
 import com.example.demo.models.Enseignant;
 import com.example.demo.models.Rubrique;
+import com.example.demo.models.RubriqueEvaluation;
+import com.example.demo.models.RubriqueQuestion;
 import com.example.demo.repositories.RubriqueRepository;
 import com.example.demo.services.RubriqueService;
 import com.example.demo.services.RubriqueServiceImpl;
@@ -13,9 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -219,4 +220,68 @@ public class RubriqueServiceImplTest {
         verify(rubriqueRepository, times(1)).findByDesignation(designation);
         verify(rubriqueRepository, never()).save(any(Rubrique.class));
     }
+
+
+    @Test
+    void deleteRubrique_Success() {
+        // Given
+        Rubrique rubrique = new Rubrique();
+        rubrique.setId(1);
+
+        when(rubriqueRepository.existsById(1)).thenReturn(true);
+        when(rubriqueRepository.findById(1)).thenReturn(Optional.of(rubrique));
+
+        // When
+        rubriqueService.deleteRubrique(1);
+
+        // Then
+        verify(rubriqueRepository, times(1)).deleteById(1);
+    }
+
+    @Test
+    void deleteRubriqueByDesignation_Success() {
+        // Given
+        String designation = "designation";
+        Rubrique rubrique = new Rubrique();
+        rubrique.setId(1);
+        rubrique.setDesignation(designation);
+        // Initialisez les collections avec des ensembles vides
+        rubrique.setRubriqueEvaluations(new HashSet<>());
+        rubrique.setRubriqueQuestions(new HashSet<>());
+
+        when(rubriqueRepository.findByDesignation(any())).thenReturn(Optional.of(rubrique));
+        doNothing().when(rubriqueRepository).deleteById(any());
+
+        // When
+        rubriqueService.deleteRubriqueByDesignation(designation);
+
+        // Then
+        verify(rubriqueRepository, times(1)).findByDesignation(designation);
+        verify(rubriqueRepository, times(1)).deleteById(rubrique.getId());
+    }
+
+
+
+
+
+
+    @Test
+    void deleteRubriqueByDesignation_NotFound() {
+        // Given
+        String designation = "Test";
+
+        when(rubriqueRepository.findByDesignation(designation)).thenReturn(Optional.empty());
+
+        // When, Then
+        assertThrows(NotFoundEntityException.class, () -> {
+            rubriqueService.deleteRubriqueByDesignation(designation);
+        });
+        verify(rubriqueRepository, never()).deleteById(anyInt());
+    }
+
+
+
+
+
+
 }

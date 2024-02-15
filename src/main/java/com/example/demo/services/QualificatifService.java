@@ -95,22 +95,27 @@ public class QualificatifService {
         Qualificatif existingQualificatif = qualificatifRepository.findById(qualificatif.getId())
                 .orElseThrow(() -> new QualificatifNotFoundException(qualificatif.getId()));
 
-
         boolean isUsedInQuestion = existingQualificatif.getQuestions().stream().anyMatch(question -> question.getIdQualificatif().equals(existingQualificatif));
 
         if (isUsedInQuestion) {
             throw new RuntimeException("Cannot update this qualificatif because it is used in one or more questions.");
         }
 
-        if (qualificatifRepository.existsByMaximalOrMinimal(qualificatif.getMaximal(), qualificatif.getMinimal())) {
-            throw new QualificatifAlreadyExistsException(qualificatif.getMaximal(), qualificatif.getMinimal());
+        // Check if the new maximal value is unique (except itself)
+        if (qualificatif.getMaximal() != null && !qualificatif.getMaximal().equals(existingQualificatif.getMaximal())) {
+            if (qualificatifRepository.existsByMaximalAndIdNot(qualificatif.getMaximal(), qualificatif.getId())) {
+                throw new QualificatifAlreadyExistsException(qualificatif.getMaximal(), null);
+            }
         }
 
-        if (qualificatifRepository.existsByMaximal(qualificatif.getMinimal()) &&
-                qualificatifRepository.existsByMinimal(qualificatif.getMaximal())) {
-            throw new QualificatifAlreadyExistsException(qualificatif.getMaximal(), qualificatif.getMinimal());
+        // Check if the new minimal value is unique (except itself)
+        if (qualificatif.getMinimal() != null && !qualificatif.getMinimal().equals(existingQualificatif.getMinimal())) {
+            if (qualificatifRepository.existsByMinimalAndIdNot(qualificatif.getMinimal(), qualificatif.getId())) {
+                throw new QualificatifAlreadyExistsException(null, qualificatif.getMinimal());
+            }
         }
 
+        // Update the qualificatif values
         existingQualificatif.setMaximal(qualificatif.getMaximal());
         existingQualificatif.setMinimal(qualificatif.getMinimal());
         return qualificatifRepository.save(existingQualificatif);

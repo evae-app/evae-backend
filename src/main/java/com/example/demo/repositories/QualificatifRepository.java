@@ -7,6 +7,10 @@ import org.springframework.data.repository.query.Param;
 
 public interface QualificatifRepository extends JpaRepository<Qualificatif, Integer> {
 
+    boolean existsByMaximalAndIdNot(String maximal, Integer id);
+
+    boolean existsByMinimalAndIdNot(String minimal,Integer id);
+
     boolean existsByMaximalOrMinimal(String maximal, String minimal);
 
     boolean existsByMaximal(String maximal);

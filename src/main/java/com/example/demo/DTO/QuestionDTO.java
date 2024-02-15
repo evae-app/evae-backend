@@ -13,7 +13,7 @@ public class QuestionDTO {
 
     private String type;
 
-    private Qualificatif idQualificatif;
+    private QualificatifDTO idQualificatif;
 
     private String intitule;
 

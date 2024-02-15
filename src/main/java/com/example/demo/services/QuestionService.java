@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.DTO.QualificatifDTO;
 import com.example.demo.DTO.QuestionDTO;
 import com.example.demo.JWT.CustomerUserDetailsService;
 import com.example.demo.JWT.JwtFilter;
@@ -107,10 +108,13 @@ public class QuestionService {
 
 	            for (Question question : questions) {
 	            	QuestionDTO QuestionDTO = new QuestionDTO();
-
+					QualificatifDTO a = new QualificatifDTO();
+					a.setId(question.getIdQualificatif().getId());
+					a.setMaximal(question.getIdQualificatif().getMaximal());
+					a.setMinimal(question.getIdQualificatif().getMinimal());
 	            	QuestionDTO.setId(question.getId());
 	            	QuestionDTO.setIntitule(question.getIntitule());
-	            	QuestionDTO.setIdQualificatif(question.getIdQualificatif());
+	            	QuestionDTO.setIdQualificatif(a);
 
 	            	QuestionDTOs.add(QuestionDTO);
 	            }

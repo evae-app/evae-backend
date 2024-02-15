@@ -49,15 +49,17 @@ public class QualificatifService {
 
 
     public String deleteQualificatif(int id){
+        Qualificatif qualificatif = qualificatifRepository.findById(id)
+                .orElseThrow(() -> new QualificatifNotFoundException(id));
 
-        if (!qualificatifRepository.existsById(id)) {
-            throw new QualificatifNotFoundException(id);
+        // Check if any question is using this qualificatif
+        boolean isUsedInQuestion = qualificatif.getQuestions().stream().anyMatch(question -> question.getIdQualificatif().equals(qualificatif));
+        if (isUsedInQuestion) {
+            throw new RuntimeException("Cannot delete this qualificatif because it is used in one or more questions.");
         }
 
         qualificatifRepository.deleteById(id);
-        return "Qualificatif supprime || " + id;
-
-
+        return "Qualificatif supprime ||"+id;
     }
 
 
@@ -94,12 +96,17 @@ public class QualificatifService {
                 .orElseThrow(() -> new QualificatifNotFoundException(qualificatif.getId()));
 
 
+        boolean isUsedInQuestion = existingQualificatif.getQuestions().stream().anyMatch(question -> question.getIdQualificatif().equals(existingQualificatif));
+
+        if (isUsedInQuestion) {
+            throw new RuntimeException("Cannot update this qualificatif because it is used in one or more questions.");
+        }
 
         if (qualificatifRepository.existsByMaximalOrMinimal(qualificatif.getMaximal(), qualificatif.getMinimal())) {
             throw new QualificatifAlreadyExistsException(qualificatif.getMaximal(), qualificatif.getMinimal());
         }
 
-        if (qualificatifRepository.existsByMaximal(qualificatif.getMinimal()) ||
+        if (qualificatifRepository.existsByMaximal(qualificatif.getMinimal()) &&
                 qualificatifRepository.existsByMinimal(qualificatif.getMaximal())) {
             throw new QualificatifAlreadyExistsException(qualificatif.getMaximal(), qualificatif.getMinimal());
         }

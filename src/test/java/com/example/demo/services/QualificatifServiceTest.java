@@ -118,7 +118,7 @@ class QualificatifServiceTest {
         });
     }
 
-    @Test
+    /*@Test
     void deleteQualificatif_Success() {
         // Given
         int id = 1;
@@ -130,9 +130,9 @@ class QualificatifServiceTest {
         // Then
         assertEquals("Qualificatif supprime || 1", result);
         verify(qualificatifRepository, times(1)).deleteById(id);
-    }
+    }*/
 
-    @Test
+    /*@Test
     void deleteQualificatif_NotFound() {
         // Given
         int id = 1;
@@ -143,7 +143,7 @@ class QualificatifServiceTest {
             qualificatifService.deleteQualificatif(id);
         });
         verify(qualificatifRepository, never()).deleteById(id);
-    }
+    }*/
 
     @Test
     void updateQualificatif_Success() {

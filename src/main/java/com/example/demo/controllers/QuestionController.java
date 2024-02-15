@@ -7,12 +7,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.DTO.QuestionDTO;
 import com.example.demo.constants.EvaeBackendConstants;
@@ -47,7 +42,7 @@ public class QuestionController {
         return BackendUtils.getResponseEntity(EvaeBackendConstants.SOMETHING_WENT_WRONG , HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@PostMapping(value="/update")
+	@PutMapping(value="/update")
 	public ResponseEntity<String> modifierQuestion(@RequestBody Map<String, String> requestMap) {
 		try {
 			return questionservice.update(requestMap);
@@ -57,7 +52,7 @@ public class QuestionController {
 		return BackendUtils.getResponseEntity(EvaeBackendConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@GetMapping(value="/delete/{id}")
+	@DeleteMapping(value="/delete/{id}")
 	public ResponseEntity<String> SupprimerQuestion(@PathVariable("id") int id) {
 		try {
 			return questionservice.deleteQuestion(id);

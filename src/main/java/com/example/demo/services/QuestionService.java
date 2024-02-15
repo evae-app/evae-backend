@@ -73,9 +73,9 @@ public class QuestionService {
                         	Question question = new Question();
                         	question.setIntitule(requestMap.get("intitule"));
                         	question.setNoEnseignant(null);
-                        	//question.setId(null);
+
                         	question.setIdQualificatif(qualificatif);
-                        	question.setType("standard");
+                        	question.setType(requestMap.get("type"));
                         	
                         	questionRepository.save(question);
                             return BackendUtils.getResponseEntity("Question Successfully Registered", HttpStatus.OK);
@@ -112,9 +112,13 @@ public class QuestionService {
 					a.setId(question.getIdQualificatif().getId());
 					a.setMaximal(question.getIdQualificatif().getMaximal());
 					a.setMinimal(question.getIdQualificatif().getMinimal());
+
 	            	QuestionDTO.setId(question.getId());
 	            	QuestionDTO.setIntitule(question.getIntitule());
+					QuestionDTO.setType(question.getType());
+
 	            	QuestionDTO.setIdQualificatif(a);
+
 
 	            	QuestionDTOs.add(QuestionDTO);
 	            }
@@ -144,8 +148,7 @@ public class QuestionService {
                                 question.setIdQualificatif(qualificatif);
                                 question.setIntitule(requestMap.get("intitule"));
                                 question.setNoEnseignant(null);
-                                question.setType("standard");
-                                
+                                question.setType(requestMap.get("type"));
                                 questionRepository.save(question);
                                 return BackendUtils.getResponseEntity(EvaeBackendConstants.USER_STATUS, HttpStatus.OK);
                             } else {

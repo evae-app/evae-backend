@@ -39,4 +39,5 @@ public class Question {
     @OneToMany(mappedBy = "idQuestion")
     private Set<RubriqueQuestion> rubriqueQuestions = new LinkedHashSet<>();
 
+
 }

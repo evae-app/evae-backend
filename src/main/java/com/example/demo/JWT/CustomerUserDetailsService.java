@@ -18,24 +18,24 @@ public class CustomerUserDetailsService implements UserDetailsService{
 
 	@Autowired
 	UserRepository userrepos;
-	
-	private com.example.demo.models.User userDetail;
-	
+
+	private com.example.demo.models.Authentification userDetail;
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		userDetail = userrepos.findByEmail(username);
 		if(!Objects.isNull(userDetail)) {
-			return new User(userDetail.getEmail(), userDetail.getPassword(), new ArrayList<>());
+			return new User(userDetail.getLoginConnection(), userDetail.getMotPasse(), new ArrayList<>());
 		}
 		else {
 			throw new UsernameNotFoundException("User not found");
 		}
 	}
-	
-	public com.example.demo.models.User getUserDetails() {
+
+	public com.example.demo.models.Authentification getUserDetails() {
 		return userDetail;
 	}
-	
-	
+
+
 
 }

@@ -1,5 +1,7 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,6 +39,7 @@ public class Question {
     private Set<QuestionEvaluation> questionEvaluations = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idQuestion")
+    @JsonBackReference
     private Set<RubriqueQuestion> rubriqueQuestions = new LinkedHashSet<>();
 
 

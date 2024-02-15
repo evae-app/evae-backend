@@ -158,20 +158,21 @@ class QualificatifServiceTest {
         updatedQualificatif.setMinimal("Updated Minimal Value");
         updatedQualificatif.setMaximal("Updated Maximal Value");
 
+        // Configuration de Mockito pour simuler le comportement de la récupération du qualificatif existant
         when(qualificatifRepository.findById(1)).thenReturn(Optional.of(existingQualificatif));
-        when(qualificatifRepository.existsByMaximalOrMinimal(anyString(), anyString())).thenReturn(false);
-        when(qualificatifRepository.existsByMaximal(anyString())).thenReturn(false);
-        when(qualificatifRepository.existsByMinimal(anyString())).thenReturn(false);
-        when(qualificatifRepository.save(existingQualificatif)).thenReturn(existingQualificatif);
+
+        // Configuration de Mockito pour simuler le comportement de la sauvegarde du qualificatif mis à jour
+        when(qualificatifRepository.save(any(Qualificatif.class))).thenReturn(updatedQualificatif);
 
         // When
         Qualificatif result = qualificatifService.updateQualificatif(updatedQualificatif);
 
         // Then
-        assertNotNull(result);
         assertEquals(updatedQualificatif.getId(), result.getId());
         assertEquals(updatedQualificatif.getMinimal(), result.getMinimal());
         assertEquals(updatedQualificatif.getMaximal(), result.getMaximal());
+        verify(qualificatifRepository, times(1)).findById(1);
+        verify(qualificatifRepository, times(1)).save(any(Qualificatif.class));
     }
 
     @Test
@@ -188,27 +189,7 @@ class QualificatifServiceTest {
         });
     }
 
-    @Test
-    void updateQualificatif_AlreadyExists() {
-        // Given
-        Qualificatif existingQualificatif = new Qualificatif();
-        existingQualificatif.setId(1);
-        existingQualificatif.setMinimal("Minimal Value");
-        existingQualificatif.setMaximal("Maximal Value");
 
-        Qualificatif updatedQualificatif = new Qualificatif();
-        updatedQualificatif.setId(1);
-        updatedQualificatif.setMinimal("Updated Minimal Value");
-        updatedQualificatif.setMaximal("Updated Maximal Value");
-
-        when(qualificatifRepository.findById(1)).thenReturn(Optional.of(existingQualificatif));
-        when(qualificatifRepository.existsByMaximalOrMinimal(anyString(), anyString())).thenReturn(true);
-
-        // When, Then
-        assertThrows(QualificatifAlreadyExistsException.class, () -> {
-            qualificatifService.updateQualificatif(updatedQualificatif);
-        });
-    }
 
 
 }

@@ -11,8 +11,9 @@ public interface RubriqueService {
     Rubrique createRubrique(Rubrique rubrique);
     Rubrique updateRubrique(Integer id, Rubrique rubrique);
 
-    Rubrique updateRubrique(String designation, Rubrique rubrique);
+    Rubrique updateRubriqueByDesignation(String designation, Rubrique rubrique);
     void deleteRubrique(Integer id);
-    void deleteRubrique(String designation);
+
+    void deleteRubriqueByDesignation(String designation);
     Optional<Rubrique> findRubriqueByDesignation(String designation);
 }

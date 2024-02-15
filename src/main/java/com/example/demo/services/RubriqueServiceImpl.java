@@ -61,7 +61,7 @@ public class RubriqueServiceImpl implements RubriqueService{
         }
     }
 
-    public Rubrique updateRubrique(String designation, Rubrique updatedRubrique) {
+    public Rubrique updateRubriqueByDesignation(String designation, Rubrique updatedRubrique) {
         Optional<Rubrique> optionalRubrique = rubriqueRepository.findByDesignation(designation);
 
         if (optionalRubrique.isPresent()) {
@@ -88,7 +88,7 @@ public class RubriqueServiceImpl implements RubriqueService{
     }
 
     @Override
-    public void deleteRubrique(String designation) {
+    public void deleteRubriqueByDesignation(String designation) {
         Optional<Rubrique> optionalRubrique = rubriqueRepository.findByDesignation(designation);
         if (optionalRubrique.isPresent()) {
             Integer id = optionalRubrique.get().getId();

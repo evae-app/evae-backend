@@ -44,7 +44,7 @@ public class RubriqueController {
     }
     @PutMapping("designation/{designation}")
     public Rubrique updateRubriqueByDesignation(@PathVariable String designation, @RequestBody Rubrique rubrique) {
-        return rubriqueService.updateRubrique(designation, rubrique);
+        return rubriqueService.updateRubriqueByDesignation(designation, rubrique);
     }
 
     @DeleteMapping("/{id}")
@@ -53,8 +53,8 @@ public class RubriqueController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @DeleteMapping("/designation/{designation}")
-    public ResponseEntity<Void> deleteRubrique(@PathVariable String designation) {
-        rubriqueService.deleteRubrique(designation);
+    public ResponseEntity<Void> deleteRubriqueByDesignation(@PathVariable String designation) {
+        rubriqueService.deleteRubriqueByDesignation(designation);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

@@ -9,4 +9,5 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
 	
 	@Query("select q from Question q where q.intitule = :intitule")
 	Question findByIntitule(@Param("intitule") String intitule);
+
 }

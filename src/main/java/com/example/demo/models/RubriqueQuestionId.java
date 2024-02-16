@@ -1,6 +1,8 @@
 package com.example.demo.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.Hibernate;
 
@@ -11,6 +13,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Embeddable
 public class RubriqueQuestionId implements Serializable {
     private static final long serialVersionUID = 7346432885232884067L;

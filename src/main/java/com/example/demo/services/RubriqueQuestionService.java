@@ -10,6 +10,6 @@ import java.util.Set;
 
 public interface RubriqueQuestionService {
     public RubriqueQuestion createRubriqueQuestion(RubriqueQuestionDTO rubriqueQuestionDTO);
-
     public Set<Question> getQuestionsByRubrique(Rubrique rubrique);
+    public List<RubriqueQuestionDTO> getAllRubriqueQuestion();
 }

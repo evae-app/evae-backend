@@ -34,7 +34,7 @@ public class RubriqueServiceImpl implements RubriqueService{
             rubrique.setType("RBP");
         }
         if (rubriqueRepository.existsByDesignation(rubrique.getDesignation())) {
-            throw new DuplicateEntityException();
+            throw new DuplicateEntityException("Cette rubrique existe déjà");
         }
         return rubriqueRepository.save(rubrique);
     }
@@ -44,7 +44,7 @@ public class RubriqueServiceImpl implements RubriqueService{
         if (rubriqueRepository.existsById(id)) {
             Rubrique existingRubrique = rubriqueRepository.findById(id).orElse(null);
             if (rubriqueRepository.existsByDesignationAndIdNot(rubrique.getDesignation(), id)) {
-                throw new DuplicateEntityException();
+                throw new DuplicateEntityException("Cette rubrique existe déjà");
             }
             if (isRubriqueUsedInEvaluation(existingRubrique)) {
                 throw new UsedEntityException();

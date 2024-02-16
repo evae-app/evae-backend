@@ -24,6 +24,11 @@ public class RubriqueQuestionController {
     @Autowired
     private RubriqueRepository rubriqueRepository;
 
+    @GetMapping("/getAll")
+    public ResponseEntity<List<RubriqueQuestionDTO>> getAllRubriqueQuestion() {
+        List<RubriqueQuestionDTO> rubriqueQuestionDTOs = rubriqueQuestionService.getAllRubriqueQuestion();
+        return new ResponseEntity<>(rubriqueQuestionDTOs, HttpStatus.OK);
+    }
     @PostMapping
     public ResponseEntity<RubriqueQuestion> createRubriqueQuestion(@RequestBody RubriqueQuestionDTO rubriqueQuestionDTO) {
         RubriqueQuestion rubriqueQuestion = rubriqueQuestionService.createRubriqueQuestion(rubriqueQuestionDTO);
@@ -38,4 +43,5 @@ public class RubriqueQuestionController {
         Set<Question> questions = rubriqueQuestionService.getQuestionsByRubrique(rubrique);
         return ResponseEntity.ok(questions);
     }
+
 }

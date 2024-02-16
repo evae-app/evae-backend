@@ -12,4 +12,6 @@ public class RubriqueQuestionDTO {
     private Integer idRubrique;
     private Integer idQuestion;
     private Long ordre;
+    private RubriqueDTO rubriqueDTO;
+    private QuestionDTO questionDTO;
 }

@@ -20,4 +20,14 @@ public class CustomExceptionHandler {
 
         return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
     }
+    @ExceptionHandler(OrdreException.class)
+    public ResponseEntity<ApiError> handleOrdreException(OrdreException ex) {
+        ApiError apiError = new ApiError();
+        apiError.setTimestamp(LocalDateTime.now());
+        apiError.setStatus(HttpStatus.BAD_REQUEST.value());
+        apiError.setError(HttpStatus.BAD_REQUEST.getReasonPhrase());
+        apiError.setMessage(ex.getMessage());
+
+        return new ResponseEntity<>(apiError, HttpStatus.BAD_REQUEST);
+    }
 }

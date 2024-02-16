@@ -13,8 +13,9 @@ import java.util.List;
 @Setter
 @Getter
 public class RubriqueDTO {
+    Integer id;
     private String type;
     private String designation;
     private Long ordre;
-    private List<Long> questionIds;
+    //private List<Long> questionIds;
 }

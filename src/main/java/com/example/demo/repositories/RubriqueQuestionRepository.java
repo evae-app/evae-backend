@@ -18,4 +18,15 @@ public interface RubriqueQuestionRepository extends JpaRepository<RubriqueQuesti
 	@Query("SELECT rq.idQuestion FROM RubriqueQuestion rq WHERE rq.idRubrique = :rubrique")
 	Set<Question> findQuestionsByRubrique(@Param("rubrique") Rubrique rubrique);
 
+	boolean existsById_IdRubriqueAndId_IdQuestion(
+			Integer rubriqueId,
+			Integer questionId
+	);
+
+	boolean existsById_IdRubriqueAndOrdre(
+			Integer rubriqueId,
+			Long ordre
+	);
+
+
 }

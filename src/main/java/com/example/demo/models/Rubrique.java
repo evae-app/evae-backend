@@ -1,6 +1,5 @@
 package com.example.demo.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,8 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "RUBRIQUE", schema = "SPI")
-@JsonIgnoreProperties({"rubriqueEvaluations", "rubriqueQuestions"}) // Ignorer ces propriétés lors de la sérialisation JSON
+@Table(name = "RUBRIQUE")
 public class Rubrique {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RUBRIQUE_id_gen")

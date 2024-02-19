@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "CG_REF_CODES", schema = "SPI")
+@Table(name = "CG_REF_CODES")
 public class CgRefCode {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CG_REF_CODES_id_gen")

@@ -13,8 +13,10 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@NoArgsConstructor @AllArgsConstructor
 @Embeddable
+@NoArgsConstructor
+@AllArgsConstructor
+
 public class RubriqueQuestionId implements Serializable {
     private static final long serialVersionUID = 7346432885232884067L;
     @Column(name = "ID_RUBRIQUE", nullable = false)

@@ -9,10 +9,9 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @Entity
-@Table(name = "CANDIDAT", schema = "SPI")
+@Table(name = "CANDIDAT", schema = "EQUIPE1_DEV")
 public class Candidat {
     @Id
-    @SequenceGenerator(name = "CANDIDAT_id_gen", sequenceName = "AUT_SEQ", allocationSize = 1)
     @Column(name = "NO_CANDIDAT", nullable = false, length = 50)
     private String noCandidat;
 

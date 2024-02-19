@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "UNITE_ENSEIGNEMENT", schema = "SPI")
+@Table(name = "UNITE_ENSEIGNEMENT")
 public class UniteEnseignement {
     @SequenceGenerator(name = "UNITE_ENSEIGNEMENT_id_gen", sequenceName = "AUT_SEQ", allocationSize = 1)
     @EmbeddedId
@@ -46,7 +46,7 @@ public class UniteEnseignement {
     @OneToMany(mappedBy = "uniteEnseignement")
     private Set<ElementConstitutif> elementConstitutifs = new LinkedHashSet<>();
 
-    /*@OneToMany(mappedBy = "uniteEnseignement")
+    /*@OneToMany(mappedBy = "")
     private Set<Evaluation> evaluations = new LinkedHashSet<>();*/
 
 }

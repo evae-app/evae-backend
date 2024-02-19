@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "RUBRIQUE_EVALUATION", schema = "SPI")
+@Table(name = "RUBRIQUE_EVALUATION")
 public class RubriqueEvaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "RUBRIQUE_EVALUATION_id_gen")

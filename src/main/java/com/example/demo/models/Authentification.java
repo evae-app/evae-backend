@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "AUTHENTIFICATION", schema = "SPI")
+@Table(name = "AUTHENTIFICATION")
 public class Authentification {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "AUTHENTIFICATION_id_gen")
@@ -25,7 +25,7 @@ public class Authentification {
     @Column(name = "PSEUDO_CONNECTION", length = 240)
     private String pseudoConnection;
 
-    @Column(name = "MOT_PASSE", length = 32)
+    @Column(name = "MOT_PASSE")
     private String motPasse;
 
     @ManyToOne(fetch = FetchType.LAZY)

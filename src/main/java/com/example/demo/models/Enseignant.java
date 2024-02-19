@@ -10,7 +10,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "ENSEIGNANT", schema = "SPI")
+@Table(name = "ENSEIGNANT")
 public class Enseignant {
     @Id
     @SequenceGenerator(name = "ENSEIGNANT_id_gen", sequenceName = "ENS_SEQ", allocationSize = 1)

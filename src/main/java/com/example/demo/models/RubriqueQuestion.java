@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "RUBRIQUE_QUESTION", schema = "SPI")
+@Table(name = "RUBRIQUE_QUESTION")
 public class RubriqueQuestion {
     @SequenceGenerator(name = "RUBRIQUE_QUESTION_id_gen", sequenceName = "AUT_SEQ", allocationSize = 1)
     @EmbeddedId

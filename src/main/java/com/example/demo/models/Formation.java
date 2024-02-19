@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "FORMATION", schema = "SPI")
+@Table(name = "FORMATION")
 public class Formation {
     @Id
     @SequenceGenerator(name = "FORMATION_id_gen", sequenceName = "AUT_SEQ", allocationSize = 1)

@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "PROMOTION", schema = "SPI")
+@Table(name = "PROMOTION")
 public class Promotion {
     @SequenceGenerator(name = "PROMOTION_id_gen", sequenceName = "AUT_SEQ", allocationSize = 1)
     @EmbeddedId

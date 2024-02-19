@@ -11,7 +11,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Entity
-@Table(name = "EVALUATION", schema = "SPI")
+@Table(name = "EVALUATION")
 public class Evaluation {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "EVALUATION_id_gen")
@@ -31,13 +31,13 @@ public class Evaluation {
     })
     private ElementConstitutif elementConstitutif;
 
-
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
             @JoinColumn(name = "CODE_FORMATION", referencedColumnName = "CODE_FORMATION", insertable=false, updatable=false),
             @JoinColumn(name = "CODE_UE", referencedColumnName = "CODE_UE",  insertable=false, updatable=false)
     })
     private UniteEnseignement uniteEnseignement;
+
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({

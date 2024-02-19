@@ -2,10 +2,7 @@ package com.example.demo.services;
 
 
 import com.example.demo.DTO.RubriqueQuestionDTO;
-import com.example.demo.models.Qualificatif;
-import com.example.demo.models.Question;
-import com.example.demo.models.Rubrique;
-import com.example.demo.models.RubriqueQuestion;
+import com.example.demo.models.*;
 import com.example.demo.repositories.QuestionRepository;
 import com.example.demo.repositories.RubriqueQuestionRepository;
 import com.example.demo.repositories.RubriqueRepository;
@@ -146,37 +143,44 @@ class RubriqueQuestionServiceImplTest {
 
 
 
-
-    /*@Test
-    void testCreateRubriqueQuestion() {
-        // Création d'un DTO de RubriqueQuestion fictif pour le test
+    @Test
+    void testCreateRubriqueQuestion_WhenNotExists() {
+        // Création de données de test
         RubriqueQuestionDTO rubriqueQuestionDTO = new RubriqueQuestionDTO();
         rubriqueQuestionDTO.setIdRubrique(1);
-        rubriqueQuestionDTO.setIdQuestion(1);
+        rubriqueQuestionDTO.setIdQuestion(2);
         rubriqueQuestionDTO.setOrdre(1L);
 
-        // Simulation du comportement du repository pour ne pas trouver de doublon ou d'ordre existant
-        when(rubriqueQuestionRepository.existsById_IdRubriqueAndId_IdQuestion(anyInt(), anyInt())).thenReturn(false);
-        when(rubriqueQuestionRepository.existsById_IdRubriqueAndOrdre(anyInt(), anyLong())).thenReturn(false);
+        RubriqueQuestion rubriqueQuestion = new RubriqueQuestion();
+        rubriqueQuestion.setId(new RubriqueQuestionId(1, 2));
+        rubriqueQuestion.setOrdre(1L); // Ajout de l'ordre à la rubrique de question
 
-        // Simulation du comportement des repositories pour retourner les entités associées
-        when(rubriqueRepository.findById(anyInt())).thenReturn(Optional.of(new Rubrique()));
-        when(questionRepository.findById(anyInt())).thenReturn(Optional.of(new Question()));
+        Rubrique rubrique = new Rubrique();
+        rubrique.setId(1);
 
-        // Appel de la méthode à tester
+        Question question = new Question();
+        question.setId(2);
+
+        // Définir le comportement simulé des repositories
+        when(rubriqueQuestionRepository.existsById_IdRubriqueAndId_IdQuestion(1, 2)).thenReturn(false);
+        when(rubriqueRepository.findById(1)).thenReturn(Optional.of(rubrique));
+        when(questionRepository.findById(2)).thenReturn(Optional.of(question));
+        when(rubriqueQuestionRepository.save(any())).thenReturn(rubriqueQuestion);
+
+        // Appeler la méthode à tester
         RubriqueQuestion createdRubriqueQuestion = rubriqueQuestionService.createRubriqueQuestion(rubriqueQuestionDTO);
 
-        // Vérifications
+        // Vérifier les résultats
         assertNotNull(createdRubriqueQuestion);
-        assertEquals(rubriqueQuestionDTO.getIdRubrique(), createdRubriqueQuestion.getId().getIdRubrique());
-        assertEquals(rubriqueQuestionDTO.getIdQuestion(), createdRubriqueQuestion.getId().getIdQuestion());
-        assertEquals(rubriqueQuestionDTO.getOrdre(), createdRubriqueQuestion.getOrdre());
-
-        // Vérification des appels aux méthodes du repository
-        verify(rubriqueQuestionRepository, times(1)).save(any());
+        assertEquals(1, createdRubriqueQuestion.getId().getIdRubrique());
+        assertEquals(2, createdRubriqueQuestion.getId().getIdQuestion());
+        assertEquals(1L, createdRubriqueQuestion.getOrdre()); // Correction : vérifier l'ordre correctement initialisé
     }
-*/
-
 
 
 }
+
+
+
+
+

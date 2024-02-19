@@ -259,4 +259,6 @@ public class RubriqueQuestionServiceImpl implements RubriqueQuestionService{
         rubriqueQuestionRepository.save(rubriqueQuestion2);
     }
 
+
+
 }

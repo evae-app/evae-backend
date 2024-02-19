@@ -3,15 +3,18 @@ package com.example.demo.repositories;
 import com.example.demo.models.Question;
 import com.example.demo.models.Rubrique;
 import com.example.demo.models.RubriqueQuestion;
+import com.example.demo.models.RubriqueQuestionId;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Set;
 
 
-public interface RubriqueQuestionRepository extends JpaRepository<RubriqueQuestion, Integer>{
+public interface RubriqueQuestionRepository extends JpaRepository<RubriqueQuestion, RubriqueQuestionId>{
 
 
 	@Query("select rq from RubriqueQuestion rq where rq.idQuestion = :question")
@@ -33,6 +36,13 @@ public interface RubriqueQuestionRepository extends JpaRepository<RubriqueQuesti
 			Integer rubriqueId,
 			Long ordre
 	);
+
+
+	@Modifying
+	@Transactional
+	@Query("DELETE FROM RubriqueQuestion rq WHERE rq.id.idRubrique = :rubriqueId")
+	void deleteByRubriqueId(@Param("rubriqueId") Integer rubriqueId);
+
 
 
 }

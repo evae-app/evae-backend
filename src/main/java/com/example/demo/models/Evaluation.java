@@ -34,6 +34,13 @@ public class Evaluation {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumns({
+            @JoinColumn(name = "CODE_FORMATION", referencedColumnName = "CODE_FORMATION", insertable=false, updatable=false),
+            @JoinColumn(name = "CODE_UE", referencedColumnName = "CODE_UE",  insertable=false, updatable=false)
+    })
+    private UniteEnseignement uniteEnseignement;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumns({
             @JoinColumn(name = "CODE_FORMATION", referencedColumnName = "CODE_FORMATION", insertable = false , updatable = false ),
             @JoinColumn(name = "ANNEE_UNIVERSITAIRE", referencedColumnName = "ANNEE_UNIVERSITAIRE", insertable = false , updatable = false )
     })

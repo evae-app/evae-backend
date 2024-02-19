@@ -17,5 +17,7 @@ public class QuestionDTO {
 
     private String intitule;
 
+    private Long ordre;
+
 
 }

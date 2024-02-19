@@ -35,4 +35,54 @@ public class RubriqueEvaluation {
     @OneToMany(mappedBy = "idRubriqueEvaluation")
     private Set<QuestionEvaluation> questionEvaluations = new LinkedHashSet<>();
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Evaluation getIdEvaluation() {
+		return idEvaluation;
+	}
+
+	public void setIdEvaluation(Evaluation idEvaluation) {
+		this.idEvaluation = idEvaluation;
+	}
+
+	public Rubrique getIdRubrique() {
+		return idRubrique;
+	}
+
+	public void setIdRubrique(Rubrique idRubrique) {
+		this.idRubrique = idRubrique;
+	}
+
+	public Short getOrdre() {
+		return ordre;
+	}
+
+	public void setOrdre(Short ordre) {
+		this.ordre = ordre;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public Set<QuestionEvaluation> getQuestionEvaluations() {
+		return questionEvaluations;
+	}
+
+	public void setQuestionEvaluations(Set<QuestionEvaluation> questionEvaluations) {
+		this.questionEvaluations = questionEvaluations;
+	}
+    
+    
+    
 }

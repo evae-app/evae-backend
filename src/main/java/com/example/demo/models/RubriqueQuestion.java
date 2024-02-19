@@ -27,4 +27,38 @@ public class RubriqueQuestion {
     @Column(name = "ORDRE", nullable = false)
     private Long ordre;
 
+	public RubriqueQuestionId getId() {
+		return id;
+	}
+
+	public void setId(RubriqueQuestionId id) {
+		this.id = id;
+	}
+
+	public Rubrique getIdRubrique() {
+		return idRubrique;
+	}
+
+	public void setIdRubrique(Rubrique idRubrique) {
+		this.idRubrique = idRubrique;
+	}
+
+	public Question getIdQuestion() {
+		return idQuestion;
+	}
+
+	public void setIdQuestion(Question idQuestion) {
+		this.idQuestion = idQuestion;
+	}
+
+	public Long getOrdre() {
+		return ordre;
+	}
+
+	public void setOrdre(Long ordre) {
+		this.ordre = ordre;
+	}
+    
+    
+
 }

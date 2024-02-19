@@ -36,4 +36,62 @@ public class Authentification {
     @JoinColumn(name = "NO_ETUDIANT")
     private Etudiant noEtudiant;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String getLoginConnection() {
+		return loginConnection;
+	}
+
+	public void setLoginConnection(String loginConnection) {
+		this.loginConnection = loginConnection;
+	}
+
+	public String getPseudoConnection() {
+		return pseudoConnection;
+	}
+
+	public void setPseudoConnection(String pseudoConnection) {
+		this.pseudoConnection = pseudoConnection;
+	}
+
+	public String getMotPasse() {
+		return motPasse;
+	}
+
+	public void setMotPasse(String motPasse) {
+		this.motPasse = motPasse;
+	}
+
+	public Enseignant getNoEnseignant() {
+		return noEnseignant;
+	}
+
+	public void setNoEnseignant(Enseignant noEnseignant) {
+		this.noEnseignant = noEnseignant;
+	}
+
+	public Etudiant getNoEtudiant() {
+		return noEtudiant;
+	}
+
+	public void setNoEtudiant(Etudiant noEtudiant) {
+		this.noEtudiant = noEtudiant;
+	}
+    
+    
+
 }

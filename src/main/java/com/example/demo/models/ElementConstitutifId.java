@@ -38,4 +38,30 @@ public class ElementConstitutifId implements Serializable {
         return Objects.hash(codeEc, codeUe, codeFormation);
     }
 
+	public String getCodeFormation() {
+		return codeFormation;
+	}
+
+	public void setCodeFormation(String codeFormation) {
+		this.codeFormation = codeFormation;
+	}
+
+	public String getCodeUe() {
+		return codeUe;
+	}
+
+	public void setCodeUe(String codeUe) {
+		this.codeUe = codeUe;
+	}
+
+	public String getCodeEc() {
+		return codeEc;
+	}
+
+	public void setCodeEc(String codeEc) {
+		this.codeEc = codeEc;
+	}
+    
+    
+
 }

@@ -45,5 +45,63 @@ public class Question {
     @JsonBackReference
     private Set<RubriqueQuestion> rubriqueQuestions = new LinkedHashSet<>();
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public Enseignant getNoEnseignant() {
+		return noEnseignant;
+	}
+
+	public void setNoEnseignant(Enseignant noEnseignant) {
+		this.noEnseignant = noEnseignant;
+	}
+
+	public Qualificatif getIdQualificatif() {
+		return idQualificatif;
+	}
+
+	public void setIdQualificatif(Qualificatif idQualificatif) {
+		this.idQualificatif = idQualificatif;
+	}
+
+	public String getIntitule() {
+		return intitule;
+	}
+
+	public void setIntitule(String intitule) {
+		this.intitule = intitule;
+	}
+
+	public Set<QuestionEvaluation> getQuestionEvaluations() {
+		return questionEvaluations;
+	}
+
+	public void setQuestionEvaluations(Set<QuestionEvaluation> questionEvaluations) {
+		this.questionEvaluations = questionEvaluations;
+	}
+
+	public Set<RubriqueQuestion> getRubriqueQuestions() {
+		return rubriqueQuestions;
+	}
+
+	public void setRubriqueQuestions(Set<RubriqueQuestion> rubriqueQuestions) {
+		this.rubriqueQuestions = rubriqueQuestions;
+	}
+    
+    
+
 
 }

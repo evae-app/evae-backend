@@ -46,7 +46,7 @@ public class RubriqueQuestionServiceImpl implements RubriqueQuestionService{
                 .orElseThrow(() -> new RuntimeException("Question not found"));
         rubriqueQuestion.setIdQuestion(question);
 
-        rubriqueQuestion.setOrdre(rubriqueQuestionDTO.getOrdre());
+        rubriqueQuestion.setOrdre(rubriqueQuestionDTO.getOrdre().longValue());
 
         return rubriqueQuestionRepository.save(rubriqueQuestion);
     }

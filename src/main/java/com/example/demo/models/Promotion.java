@@ -59,4 +59,118 @@ public class Promotion {
     @OneToMany(mappedBy = "promotion")
     private Set<Evaluation> evaluations = new LinkedHashSet<>();
 
+	public PromotionId getId() {
+		return id;
+	}
+
+	public void setId(PromotionId id) {
+		this.id = id;
+	}
+
+	public Formation getCodeFormation() {
+		return codeFormation;
+	}
+
+	public void setCodeFormation(Formation codeFormation) {
+		this.codeFormation = codeFormation;
+	}
+
+	public Enseignant getNoEnseignant() {
+		return noEnseignant;
+	}
+
+	public void setNoEnseignant(Enseignant noEnseignant) {
+		this.noEnseignant = noEnseignant;
+	}
+
+	public String getSiglePromotion() {
+		return siglePromotion;
+	}
+
+	public void setSiglePromotion(String siglePromotion) {
+		this.siglePromotion = siglePromotion;
+	}
+
+	public Short getNbMaxEtudiant() {
+		return nbMaxEtudiant;
+	}
+
+	public void setNbMaxEtudiant(Short nbMaxEtudiant) {
+		this.nbMaxEtudiant = nbMaxEtudiant;
+	}
+
+	public LocalDate getDateReponseLp() {
+		return dateReponseLp;
+	}
+
+	public void setDateReponseLp(LocalDate dateReponseLp) {
+		this.dateReponseLp = dateReponseLp;
+	}
+
+	public LocalDate getDateReponseLalp() {
+		return dateReponseLalp;
+	}
+
+	public void setDateReponseLalp(LocalDate dateReponseLalp) {
+		this.dateReponseLalp = dateReponseLalp;
+	}
+
+	public LocalDate getDateRentree() {
+		return dateRentree;
+	}
+
+	public void setDateRentree(LocalDate dateRentree) {
+		this.dateRentree = dateRentree;
+	}
+
+	public String getLieuRentree() {
+		return lieuRentree;
+	}
+
+	public void setLieuRentree(String lieuRentree) {
+		this.lieuRentree = lieuRentree;
+	}
+
+	public String getProcessusStage() {
+		return processusStage;
+	}
+
+	public void setProcessusStage(String processusStage) {
+		this.processusStage = processusStage;
+	}
+
+	public String getCommentaire() {
+		return commentaire;
+	}
+
+	public void setCommentaire(String commentaire) {
+		this.commentaire = commentaire;
+	}
+
+	public Set<Candidat> getCandidats() {
+		return candidats;
+	}
+
+	public void setCandidats(Set<Candidat> candidats) {
+		this.candidats = candidats;
+	}
+
+	public Set<Etudiant> getEtudiants() {
+		return etudiants;
+	}
+
+	public void setEtudiants(Set<Etudiant> etudiants) {
+		this.etudiants = etudiants;
+	}
+
+	public Set<Evaluation> getEvaluations() {
+		return evaluations;
+	}
+
+	public void setEvaluations(Set<Evaluation> evaluations) {
+		this.evaluations = evaluations;
+	}
+    
+    
+
 }

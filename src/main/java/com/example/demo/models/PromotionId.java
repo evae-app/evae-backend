@@ -34,4 +34,21 @@ public class PromotionId implements Serializable {
         return Objects.hash(anneeUniversitaire, codeFormation);
     }
 
+	public String getCodeFormation() {
+		return codeFormation;
+	}
+
+	public void setCodeFormation(String codeFormation) {
+		this.codeFormation = codeFormation;
+	}
+
+	public String getAnneeUniversitaire() {
+		return anneeUniversitaire;
+	}
+
+	public void setAnneeUniversitaire(String anneeUniversitaire) {
+		this.anneeUniversitaire = anneeUniversitaire;
+	}
+    
+    
 }

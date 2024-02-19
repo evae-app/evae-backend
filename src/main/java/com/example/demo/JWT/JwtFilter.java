@@ -60,7 +60,7 @@ public class JwtFilter extends OncePerRequestFilter {
 	}
 
 	public boolean isAdmin() {
-		return "admin".equalsIgnoreCase((String) claim.get("role"));
+		return "ADM".equalsIgnoreCase((String) claim.get("role"));
 	}
 
 	public boolean isUser() {
@@ -68,11 +68,11 @@ public class JwtFilter extends OncePerRequestFilter {
 	}
 
 	public boolean isEtudiant() {
-		return "etu".equalsIgnoreCase((String) claim.get("role"));
+		return "ETU".equalsIgnoreCase((String) claim.get("role"));
 	}
 
 	public boolean isEnseignant() {
-		return "ens".equalsIgnoreCase((String) claim.get("role"));
+		return "ENS".equalsIgnoreCase((String) claim.get("role"));
 	}
 
 	public String getCurrentuser() {

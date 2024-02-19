@@ -46,4 +46,78 @@ public class ElementConstitutif {
     @OneToMany(mappedBy = "elementConstitutif")
     private Set<Evaluation> evaluations = new LinkedHashSet<>();
 
+	public ElementConstitutifId getId() {
+		return id;
+	}
+
+	public void setId(ElementConstitutifId id) {
+		this.id = id;
+	}
+
+	public UniteEnseignement getUniteEnseignement() {
+		return uniteEnseignement;
+	}
+
+	public void setUniteEnseignement(UniteEnseignement uniteEnseignement) {
+		this.uniteEnseignement = uniteEnseignement;
+	}
+
+	public Enseignant getNoEnseignant() {
+		return noEnseignant;
+	}
+
+	public void setNoEnseignant(Enseignant noEnseignant) {
+		this.noEnseignant = noEnseignant;
+	}
+
+	public String getDesignation() {
+		return designation;
+	}
+
+	public void setDesignation(String designation) {
+		this.designation = designation;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Short getNbhCm() {
+		return nbhCm;
+	}
+
+	public void setNbhCm(Short nbhCm) {
+		this.nbhCm = nbhCm;
+	}
+
+	public Short getNbhTd() {
+		return nbhTd;
+	}
+
+	public void setNbhTd(Short nbhTd) {
+		this.nbhTd = nbhTd;
+	}
+
+	public Short getNbhTp() {
+		return nbhTp;
+	}
+
+	public void setNbhTp(Short nbhTp) {
+		this.nbhTp = nbhTp;
+	}
+
+	public Set<Evaluation> getEvaluations() {
+		return evaluations;
+	}
+
+	public void setEvaluations(Set<Evaluation> evaluations) {
+		this.evaluations = evaluations;
+	}
+    
+    
+
 }

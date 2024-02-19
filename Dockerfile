@@ -11,7 +11,7 @@ COPY . .
 RUN mvn clean package
 
 # Copie du JAR construit
-COPY target/evae-backend-0.0.1-SNAPSHOT.jar .
+COPY target/evae_backend-0.0.1-SNAPSHOT.jar .
 
 # Exposition du port utilisé par votre application Spring Boot
 EXPOSE 8080

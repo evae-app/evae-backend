@@ -1,5 +1,8 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -11,6 +14,7 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "QUESTION")
+@JsonIgnoreProperties({"rubriqueQuestions"})
 public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "QUESTION_id_gen")
@@ -27,6 +31,7 @@ public class Question {
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "ID_QUALIFICATIF", nullable = false)
+    @JsonIgnore
     private Qualificatif idQualificatif;
 
     @Column(name = "INTITULE", nullable = false, length = 64)
@@ -36,6 +41,7 @@ public class Question {
     private Set<QuestionEvaluation> questionEvaluations = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idQuestion")
+    @JsonBackReference
     private Set<RubriqueQuestion> rubriqueQuestions = new LinkedHashSet<>();
 
 }

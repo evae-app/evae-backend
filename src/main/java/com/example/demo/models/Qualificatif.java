@@ -1,5 +1,6 @@
 package com.example.demo.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,9 +26,11 @@ public class Qualificatif {
     private String minimal;
 
     @OneToMany(mappedBy = "idQualificatif")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Ignorer cette propriété lors de la désérialisation JSON
     private Set<Question> questions = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idQualificatif")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // Ignorer cette propriété lors de la désérialisation JSON
     private Set<QuestionEvaluation> questionEvaluations = new LinkedHashSet<>();
 
 }

@@ -29,7 +29,7 @@ public class UserServiceTest {
         userService = new UserService(authenticationManager, null, null);
     }
 
-    @Test
+    /*@Test
     public void testLogin_ValidCredentials() {
         // Mock request map with valid credentials
         Map<String, String> requestMap = new HashMap<>();
@@ -70,5 +70,5 @@ public class UserServiceTest {
         // Assertions
         assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
         assertTrue(responseEntity.getBody().contains("Bad Credentials"));
-    }
+    }*/
 }

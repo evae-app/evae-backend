@@ -317,7 +317,12 @@ public class UserService {
 			ens.setEmailUbo(user.getNoEnseignant().getEmailUbo());
 
 			EtudiantDTO etu = new EtudiantDTO();
-			etu.setNoEtudiant(user.getNoEtudiant().getNoEtudiant());
+			if (user.getNoEtudiant() != null) {
+				etu.setNoEtudiant(user.getNoEtudiant().getNoEtudiant());
+			} else {
+				etu.setNoEtudiant(null);
+
+			}
 
 			userDTO.setNoEnseignant(ens);
 			userDTO.setNoEtudiant(etu);

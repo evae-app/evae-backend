@@ -15,9 +15,9 @@ public class UserDTO {
 
     private String motPasse;
 
-    private Enseignant noEnseignant;
+    private EnseignantDTO noEnseignant;
 
-    private Etudiant noEtudiant;
+    private EtudiantDTO noEtudiant;
 
     public Long getId() {
         return id;
@@ -59,19 +59,19 @@ public class UserDTO {
         this.motPasse = motPasse;
     }
 
-    public Enseignant getNoEnseignant() {
+    public EnseignantDTO getNoEnseignant() {
         return noEnseignant;
     }
 
-    public void setNoEnseignant(Enseignant noEnseignant) {
+    public void setNoEnseignant(EnseignantDTO noEnseignant) {
         this.noEnseignant = noEnseignant;
     }
 
-    public Etudiant getNoEtudiant() {
+    public EtudiantDTO getNoEtudiant() {
         return noEtudiant;
     }
 
-    public void setNoEtudiant(Etudiant noEtudiant) {
+    public void setNoEtudiant(EtudiantDTO noEtudiant) {
         this.noEtudiant = noEtudiant;
     }
 

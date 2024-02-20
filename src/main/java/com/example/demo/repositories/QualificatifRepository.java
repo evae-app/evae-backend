@@ -11,7 +11,9 @@ public interface QualificatifRepository extends JpaRepository<Qualificatif, Inte
 
     boolean existsByMinimalAndIdNot(String minimal,Integer id);
 
-    boolean existsByMaximalOrMinimal(String maximal, String minimal);
+    @Query("SELECT CASE WHEN COUNT(q) > 0 THEN true ELSE false END FROM Qualificatif q WHERE q.maximal = :maximal OR q.minimal = :minimal")
+    boolean existsByMaximalOrMinimal(@Param("maximal") String maximal, @Param("minimal") String minimal);
+
 
     boolean existsByMaximal(String maximal);
     boolean existsByMinimal(String minimal);

@@ -38,21 +38,21 @@ public class RubriqueController {
         return new ResponseEntity<>(createdRubrique, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
+    @PostMapping("/update/{id}")
     public Rubrique updateRubrique(@PathVariable Integer id, @RequestBody Rubrique rubrique) {
         return rubriqueService.updateRubrique(id, rubrique);
     }
-    @PutMapping("designation/{designation}")
+    @PostMapping("/update/designation/{designation}")
     public Rubrique updateRubriqueByDesignation(@PathVariable String designation, @RequestBody Rubrique rubrique) {
         return rubriqueService.updateRubriqueByDesignation(designation, rubrique);
     }
 
-    @DeleteMapping("/{id}")
+    @GetMapping("/delete/{id}")
     public ResponseEntity<Void> deleteRubrique(@PathVariable Integer id) {
         rubriqueService.deleteRubrique(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    @DeleteMapping("/designation/{designation}")
+    @GetMapping("/delete/designation/{designation}")
     public ResponseEntity<Void> deleteRubriqueByDesignation(@PathVariable String designation) {
         rubriqueService.deleteRubriqueByDesignation(designation);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

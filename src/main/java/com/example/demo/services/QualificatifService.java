@@ -26,7 +26,6 @@ public class QualificatifService {
         String maximal = qualificatif.getMaximal();
         String minimal = qualificatif.getMinimal();
 
-        // Check if a Qualificatif with the same maximal or minimal value already exists
         if (qualificatifRepository.existsByMaximalOrMinimal(maximal, minimal)) {
             throw new QualificatifAlreadyExistsException(maximal, minimal);
         }

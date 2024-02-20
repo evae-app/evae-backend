@@ -2,6 +2,8 @@ package com.example.demo.services;
 
 
 import com.example.demo.DTO.RubriqueQuestionDTO;
+import com.example.demo.exception.RubriqueNotFoundException;
+import com.example.demo.exception.RubriqueQuestionNotFoundException;
 import com.example.demo.models.*;
 import com.example.demo.repositories.QuestionRepository;
 import com.example.demo.repositories.RubriqueQuestionRepository;
@@ -15,8 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
@@ -177,6 +178,112 @@ class RubriqueQuestionServiceImplTest {
         assertEquals(1L, createdRubriqueQuestion.getOrdre()); // Correction : vérifier l'ordre correctement initialisé
     }
 
+
+    @Test
+    void testGetQuestionsGroupedByRubrique() {
+        // Créer des données de test
+        RubriqueQuestion rubriqueQuestion1 = createMockRubriqueQuestion(1, 1, 1);
+        RubriqueQuestion rubriqueQuestion2 = createMockRubriqueQuestion(1, 2, 2);
+
+        List<RubriqueQuestion> rubriqueQuestions = Arrays.asList(rubriqueQuestion1, rubriqueQuestion2);
+
+        when(rubriqueQuestionRepository.findAll()).thenReturn(rubriqueQuestions);
+
+        // Appeler la méthode à tester
+        Map<Integer, List<RubriqueQuestionDTO>> groupedQuestions = rubriqueQuestionService.getQuestionsGroupedByRubrique();
+
+        // Vérifier les résultats
+        assertEquals(1, groupedQuestions.size());
+        assertEquals(2, groupedQuestions.get(1).size());
+    }
+    @Test
+    void testGetQuestionsGroupedByRubriqueOrderedByOrdre() {
+        // Créer des données de test
+        RubriqueQuestion rubriqueQuestion1 = createMockRubriqueQuestion(1, 1, 2);
+        RubriqueQuestion rubriqueQuestion2 = createMockRubriqueQuestion(1, 2, 1);
+
+        List<RubriqueQuestion> rubriqueQuestions = Arrays.asList(rubriqueQuestion1, rubriqueQuestion2);
+
+        when(rubriqueQuestionRepository.findAll()).thenReturn(rubriqueQuestions);
+
+        // Appeler la méthode à tester
+        Map<Integer, List<RubriqueQuestionDTO>> groupedQuestions = rubriqueQuestionService.getQuestionsGroupedByRubriqueOrderedByOrdre();
+
+        // Vérifier les résultats
+        assertEquals(1, groupedQuestions.size());
+        assertEquals(2, groupedQuestions.get(1).size());
+        assertEquals(1L, groupedQuestions.get(1).get(0).getOrdre());
+        assertEquals(2L, groupedQuestions.get(1).get(1).getOrdre());
+    }
+
+
+
+
+
+
+    @Test
+    void testDeleteRubriqueQuestionsByRubriqueId() throws RubriqueNotFoundException {
+        // Données de test
+        Integer rubriqueId = 1;
+
+        // Simuler la présence de la rubrique dans le repository
+        when(rubriqueRepository.findById(rubriqueId)).thenReturn(Optional.of(new Rubrique()));
+
+        // Appeler la méthode à tester
+        String result = rubriqueQuestionService.deleteRubriqueQuestionsByRubriqueId(rubriqueId);
+
+        // Vérifier que la méthode deleteByRubriqueId du repository est appelée
+        verify(rubriqueQuestionRepository, times(1)).deleteByRubriqueId(rubriqueId);
+        // Vérifier que la méthode retourne la chaîne attendue
+        assertEquals("Deletion successful.", result);
+    }
+
+    @Test
+    void testDeleteRubriqueQuestionsByRubriqueId_RubriqueNotFoundException() {
+        // Données de test
+        Integer rubriqueId = 1;
+
+        // Simuler l'absence de la rubrique dans le repository
+        when(rubriqueRepository.findById(rubriqueId)).thenReturn(Optional.empty());
+
+        // Vérifier que l'appel lance une exception RubriqueNotFoundException
+        assertThrows(RubriqueNotFoundException.class, () -> rubriqueQuestionService.deleteRubriqueQuestionsByRubriqueId(rubriqueId));
+        // Vérifier que la méthode deleteByRubriqueId du repository n'est pas appelée
+        verify(rubriqueQuestionRepository, never()).deleteByRubriqueId(rubriqueId);
+    }
+
+    @Test
+    void testDeleteRubriqueQuestionByIds() throws RubriqueQuestionNotFoundException {
+        // Données de test
+        Integer rubriqueId = 1;
+        Integer questionId = 1;
+
+        // Simuler la présence de la RubriqueQuestion dans le repository
+        when(rubriqueQuestionRepository.findById(new RubriqueQuestionId(rubriqueId, questionId))).thenReturn(Optional.of(new RubriqueQuestion()));
+
+        // Appeler la méthode à tester
+        String result = rubriqueQuestionService.deleteRubriqueQuestionByIds(rubriqueId, questionId);
+
+        // Vérifier que la méthode deleteById du repository est appelée
+        verify(rubriqueQuestionRepository, times(1)).deleteById(new RubriqueQuestionId(rubriqueId, questionId));
+        // Vérifier que la méthode retourne la chaîne attendue
+        assertEquals("Deletion successful.", result);
+    }
+
+    @Test
+    void testDeleteRubriqueQuestionByIds_RubriqueQuestionNotFoundException() {
+        // Données de test
+        Integer rubriqueId = 1;
+        Integer questionId = 1;
+
+        // Simuler l'absence de la RubriqueQuestion dans le repository
+        when(rubriqueQuestionRepository.findById(new RubriqueQuestionId(rubriqueId, questionId))).thenReturn(Optional.empty());
+
+        // Vérifier que l'appel lance une exception RubriqueQuestionNotFoundException
+        assertThrows(RubriqueQuestionNotFoundException.class, () -> rubriqueQuestionService.deleteRubriqueQuestionByIds(rubriqueId, questionId));
+        // Vérifier que la méthode deleteById du repository n'est pas appelée
+        verify(rubriqueQuestionRepository, never()).deleteById(new RubriqueQuestionId(rubriqueId, questionId));
+    }
 
 }
 

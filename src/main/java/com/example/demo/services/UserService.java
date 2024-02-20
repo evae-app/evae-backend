@@ -311,10 +311,17 @@ public class UserService {
 			userDTO.setMotPasse(user.getMotPasse());
 
 			EnseignantDTO ens = new EnseignantDTO();
-			ens.setId(user.getNoEnseignant().getId());
-			ens.setNom(user.getNoEnseignant().getNom());
-			ens.setPrenom(user.getNoEnseignant().getPrenom());
-			ens.setEmailUbo(user.getNoEnseignant().getEmailUbo());
+			if (user.getNoEnseignant() != null) {
+				ens.setId(user.getNoEnseignant().getId());
+				ens.setNom(user.getNoEnseignant().getNom());
+				ens.setPrenom(user.getNoEnseignant().getPrenom());
+				ens.setEmailUbo(user.getNoEnseignant().getEmailUbo());
+			} else {
+				ens.setId(null);
+				ens.setNom(null);
+				ens.setPrenom(null);
+				ens.setEmailUbo(null);
+			}
 
 			EtudiantDTO etu = new EtudiantDTO();
 			if (user.getNoEtudiant() != null) {

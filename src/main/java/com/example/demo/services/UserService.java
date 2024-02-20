@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import com.example.demo.DTO.EnseignantDTO;
+import com.example.demo.DTO.EtudiantDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -198,8 +200,18 @@ public class UserService {
 					userDTO.setId(user.getId());
 					userDTO.setLoginConnection(user.getLoginConnection());
 					userDTO.setMotPasse(user.getMotPasse());
-					userDTO.setNoEnseignant(user.getNoEnseignant());
-					userDTO.setNoEtudiant(user.getNoEtudiant());
+
+					EnseignantDTO ens = new EnseignantDTO();
+					ens.setId(user.getNoEnseignant().getId());
+					ens.setNom(user.getNoEnseignant().getNom());
+					ens.setPrenom(user.getNoEnseignant().getPrenom());
+					ens.setEmailUbo(user.getNoEnseignant().getEmailUbo());
+
+					EtudiantDTO etu = new EtudiantDTO();
+					etu.setNoEtudiant(user.getNoEtudiant().getNoEtudiant());
+
+					userDTO.setNoEnseignant(ens);
+					userDTO.setNoEtudiant(etu);
 					userDTO.setPseudoConnection(user.getPseudoConnection());
 					userDTO.setRole(user.getRole());
 
@@ -297,8 +309,18 @@ public class UserService {
 			userDTO.setId(user.getId());
 			userDTO.setLoginConnection(user.getLoginConnection());
 			userDTO.setMotPasse(user.getMotPasse());
-			userDTO.setNoEnseignant(user.getNoEnseignant());
-			userDTO.setNoEtudiant(user.getNoEtudiant());
+
+			EnseignantDTO ens = new EnseignantDTO();
+			ens.setId(user.getNoEnseignant().getId());
+			ens.setNom(user.getNoEnseignant().getNom());
+			ens.setPrenom(user.getNoEnseignant().getPrenom());
+			ens.setEmailUbo(user.getNoEnseignant().getEmailUbo());
+
+			EtudiantDTO etu = new EtudiantDTO();
+			etu.setNoEtudiant(user.getNoEtudiant().getNoEtudiant());
+
+			userDTO.setNoEnseignant(ens);
+			userDTO.setNoEtudiant(etu);
 			userDTO.setPseudoConnection(user.getPseudoConnection());
 			userDTO.setRole(user.getRole());
 

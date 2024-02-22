@@ -1,9 +1,10 @@
 package com.example.demo.services;
 
 
+import com.example.demo.exception.AlreadyUsedException;
+import com.example.demo.exception.DuplicateEntityException;
+import com.example.demo.exception.NotFoundEntityException;
 import com.example.demo.exception.QualificatifAlreadyExistsException;
-import com.example.demo.exception.QualificatifInUseException;
-import com.example.demo.exception.QualificatifNotFoundException;
 import com.example.demo.models.Qualificatif;
 import com.example.demo.models.Question;
 import com.example.demo.repositories.QualificatifRepository;
@@ -27,7 +28,7 @@ public class QualificatifService {
         String minimal = qualificatif.getMinimal();
 
         if (qualificatifRepository.existsByMaximalOrMinimal(maximal, minimal)) {
-            throw new QualificatifAlreadyExistsException(maximal, minimal);
+            throw new DuplicateEntityException("qualificatif");
         }
 
         return qualificatifRepository.save(qualificatif);
@@ -43,22 +44,22 @@ public class QualificatifService {
     }  */
 
     public Qualificatif getQualificatifById(int id) {
-        return qualificatifRepository.findById(id).orElseThrow(() -> new QualificatifNotFoundException(id));
+        return qualificatifRepository.findById(id).orElseThrow(() -> new NotFoundEntityException("qualificatif"));
     }
 
 
     public String deleteQualificatif(int id){
         Qualificatif qualificatif = qualificatifRepository.findById(id)
-                .orElseThrow(() -> new QualificatifNotFoundException(id));
+                .orElseThrow(() -> new NotFoundEntityException("qualificatif") );
 
         // Check if any question is using this qualificatif
         boolean isUsedInQuestion = qualificatif.getQuestions().stream().anyMatch(question -> question.getIdQualificatif().equals(qualificatif));
         if (isUsedInQuestion) {
-            throw new RuntimeException("Cannot delete this qualificatif because it is used in one or more questions.");
+            throw new AlreadyUsedException("qualificatif");
         }
 
         qualificatifRepository.deleteById(id);
-        return "Qualificatif supprime ||"+id;
+        return "Qualificatif supprimé ||"+id;
     }
 
 
@@ -77,27 +78,38 @@ public class QualificatifService {
 
         return "Qualificatif deleted || " + id;
     }
-
-    */
-
-
-    /*
-    public Qualificatif updateQualificatif(Qualificatif qualificatif){
-        Qualificatif existingQualificatif = qualificatifRepository.findById(qualificatif.getId()).orElse(null);
-        existingQualificatif.setMaximal(qualificatif.getMaximal());
-        existingQualificatif.setMinimal(qualificatif.getMinimal());
-        return qualificatifRepository.save(existingQualificatif);
-    }
     */
 
     public Qualificatif updateQualificatif(Qualificatif qualificatif){
         Qualificatif existingQualificatif = qualificatifRepository.findById(qualificatif.getId())
-                .orElseThrow(() -> new QualificatifNotFoundException(qualificatif.getId()));
+                .orElseThrow(() -> new NotFoundEntityException("Qualificatif"));
+
+        Qualificatif qualificatifTmin = qualificatifRepository.findByMinmal(qualificatif.getMinimal());
+        Qualificatif qualificatifTmax = qualificatifRepository.findByMaxmal(qualificatif.getMinimal());
+
+        if(qualificatifTmin !=null) throw new AlreadyUsedException("qualificatif");
+        if(qualificatifTmax !=null) throw new AlreadyUsedException("qualificatif");
+
+        boolean isUsedInQuestion = existingQualificatif.getQuestions().stream().anyMatch(question -> question.getIdQualificatif().equals(existingQualificatif));
+        if (isUsedInQuestion) {
+            throw new AlreadyUsedException("qualificatif");
+        }
+
+        existingQualificatif.setMaximal(qualificatif.getMaximal());
+        existingQualificatif.setMinimal(qualificatif.getMinimal());
+        return qualificatifRepository.save(existingQualificatif);
+    }
+
+
+    /*
+    public Qualificatif updateQualificatif(Qualificatif qualificatif){
+        Qualificatif existingQualificatif = qualificatifRepository.findById(qualificatif.getId())
+                .orElseThrow(() -> new NotFoundEntityException("Qualificatif"));
 
         boolean isUsedInQuestion = existingQualificatif.getQuestions().stream().anyMatch(question -> question.getIdQualificatif().equals(existingQualificatif));
 
         if (isUsedInQuestion) {
-            throw new RuntimeException("Cannot update this qualificatif because it is used in one or more questions.");
+            throw new AlreadyUsedException("qualificatif");
         }
 
         // Check if the new maximal value is unique (except itself)
@@ -118,6 +130,6 @@ public class QualificatifService {
         existingQualificatif.setMaximal(qualificatif.getMaximal());
         existingQualificatif.setMinimal(qualificatif.getMinimal());
         return qualificatifRepository.save(existingQualificatif);
-    }
+    } */
 
 }

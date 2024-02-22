@@ -1,5 +1,6 @@
 package com.example.demo.services;
 
+import com.example.demo.DTO.RubriqueDTO;
 import com.example.demo.exception.DuplicateEntityException;
 import com.example.demo.exception.NotFoundEntityException;
 import com.example.demo.exception.UsedEntityException;
@@ -51,7 +52,7 @@ public class RubriqueServiceImplTest {
         when(rubriqueRepository.findAll()).thenReturn(expectedRubriques);
 
         // Act
-        List<Rubrique> actualRubriques = rubriqueService.getAllRubriques();
+        List<RubriqueDTO> actualRubriques = rubriqueService.getAllRubriques();
 
         // Assert
         assertEquals(expectedRubriques, actualRubriques);

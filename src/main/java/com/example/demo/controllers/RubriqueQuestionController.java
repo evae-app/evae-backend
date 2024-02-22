@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.DTO.RubriqueQuestionDTO;
+import com.example.demo.DTO.RubriqueQuestionDTOO;
 import com.example.demo.exception.RubriqueNotFoundException;
 import com.example.demo.exception.RubriqueQuestionNotFoundException;
 import com.example.demo.models.Question;
@@ -28,9 +29,9 @@ public class RubriqueQuestionController {
     private RubriqueRepository rubriqueRepository;
 
 
-    @GetMapping("/getAll")
-    public ResponseEntity<List<RubriqueQuestionDTO>> getAllRubriqueQuestion() {
-        List<RubriqueQuestionDTO> rubriqueQuestionDTOs = rubriqueQuestionService.getAllRubriqueQuestion();
+    @GetMapping("/getAllRubriquesQuestions")
+    public ResponseEntity<List<RubriqueQuestionDTOO>> getAllRubriqueQuestion() {
+        List<RubriqueQuestionDTOO> rubriqueQuestionDTOs = rubriqueQuestionService.getAllRubriquesQuestions();
         return new ResponseEntity<>(rubriqueQuestionDTOs, HttpStatus.OK);
     }
 
@@ -41,7 +42,7 @@ public class RubriqueQuestionController {
         return new ResponseEntity<>(groupedQuestions, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<RubriqueQuestion> createRubriqueQuestion(@RequestBody RubriqueQuestionDTO rubriqueQuestionDTO) {
         RubriqueQuestion rubriqueQuestion = rubriqueQuestionService.createRubriqueQuestion(rubriqueQuestionDTO);
         return ResponseEntity.ok(rubriqueQuestion);
@@ -57,9 +58,7 @@ public class RubriqueQuestionController {
     }
 
 
-
-
-    @DeleteMapping("/{rubriqueId}")
+    @GetMapping("/delete/{rubriqueId}")
     public ResponseEntity<?> deleteRubriqueQuestionsByRubriqueId(@PathVariable Integer rubriqueId) {
         try {
             rubriqueQuestionService.deleteRubriqueQuestionsByRubriqueId(rubriqueId);
@@ -69,8 +68,14 @@ public class RubriqueQuestionController {
         }
     }
 
+    @GetMapping("/{rubriqueId}")
+    public ResponseEntity<String> deleteRubriqueComposee(@PathVariable Integer rubriqueId) {
+            rubriqueQuestionService.deleteRubriqueComposee(rubriqueId);
+            return ResponseEntity.ok("Deletion successful.");
+    }
 
-    @DeleteMapping("/{rubriqueId}/{questionId}")
+
+    @GetMapping("/delete/{rubriqueId}/{questionId}")
     public ResponseEntity<?> deleteRubriqueQuestionByIds(@PathVariable Integer rubriqueId, @PathVariable Integer questionId) {
         try {
             rubriqueQuestionService.deleteRubriqueQuestionByIds(rubriqueId, questionId);
@@ -82,7 +87,7 @@ public class RubriqueQuestionController {
 
 
 
-    @PutMapping("/{rubriqueId1}/{questionId1}/{rubriqueId2}/{questionId2}/swapOrdre")
+    @PostMapping("/update/{rubriqueId1}/{questionId1}/{rubriqueId2}/{questionId2}/swapOrdre")
     public ResponseEntity<?> swapOrdre(@PathVariable Integer rubriqueId1,
                                        @PathVariable Integer questionId1,
                                        @PathVariable Integer rubriqueId2,
@@ -105,4 +110,6 @@ public class RubriqueQuestionController {
         Map<Integer, List<RubriqueQuestionDTO>> groupedQuestions = rubriqueQuestionService.getQuestionsGroupedByRubriqueOrderedByOrdre();
         return new ResponseEntity<>(groupedQuestions, HttpStatus.OK);
     }
+
+
 }

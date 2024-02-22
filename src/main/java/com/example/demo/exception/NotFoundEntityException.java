@@ -1,7 +1,7 @@
 package com.example.demo.exception;
 
 public class NotFoundEntityException extends RuntimeException {
-    public NotFoundEntityException() {
-        super(" Veuillez verifier vos données, entité introuvable");
+    public NotFoundEntityException(String message) {
+        super("Opération impossible " + message +" est introuvable");
     }
 }

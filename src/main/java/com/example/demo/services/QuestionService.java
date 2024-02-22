@@ -78,16 +78,16 @@ public class QuestionService {
                         	question.setType(requestMap.get("type"));
                         	
                         	questionRepository.save(question);
-                            return BackendUtils.getResponseEntity("Question Successfully Registered", HttpStatus.OK);
+                            return BackendUtils.getResponseEntity("Question enregistré avec succés", HttpStatus.OK);
                         } else {
-                            return BackendUtils.getResponseEntity("Question already exists", HttpStatus.BAD_REQUEST);
+                            return BackendUtils.getResponseEntity( EvaeBackendConstants.EXIST_DEJA, HttpStatus.INTERNAL_SERVER_ERROR);
                         }
             		}else {
-            			return BackendUtils.getResponseEntity("Missing intitule Question Value", HttpStatus.BAD_REQUEST);
+            			return BackendUtils.getResponseEntity(" Donnée introuvable", HttpStatus.BAD_REQUEST);
             		}
             		
             	}else {
-            		return BackendUtils.getResponseEntity("Please Give a String Value to intitule Question ", HttpStatus.BAD_REQUEST);
+            		return BackendUtils.getResponseEntity(" Format de donnée non valide ", HttpStatus.BAD_REQUEST);
             	}
                 
             } else {
@@ -140,8 +140,13 @@ public class QuestionService {
                         Qualificatif qualificatif = qualificatifRepository.findByMinmal(requestMap.get("minimal"));
                         RubriqueQuestion RubriqueQuestion = RubriquequestionRepository.findByQuestion(question);
                         QuestionEvaluation QuestionEvaluation = QuestionevaluationRepository.findByQuestion(question);
-                        
-                        if(RubriqueQuestion == null || QuestionEvaluation == null) {
+
+						Question question1 = questionRepository.findByIntitule(requestMap.get("intitule"));
+						//Qualificatif minimal = qualificatifRepository.findByMinmal(requestMap.get("minimal"));
+
+						if(question1 != null ) return BackendUtils.getResponseEntity( EvaeBackendConstants.EXIST_DEJA, HttpStatus.INTERNAL_SERVER_ERROR);
+
+						if(RubriqueQuestion == null || QuestionEvaluation == null) {
                         	System.out.println("question : " + question);
                             if (question != null) {
                                 question.setId(Integer.parseInt(requestMap.get("id")));
@@ -152,7 +157,7 @@ public class QuestionService {
                                 questionRepository.save(question);
                                 return BackendUtils.getResponseEntity(EvaeBackendConstants.USER_STATUS, HttpStatus.OK);
                             } else {
-                                return BackendUtils.getResponseEntity("Question id doesn't exist.", HttpStatus.BAD_REQUEST);
+                                return BackendUtils.getResponseEntity("Question introuvable.", HttpStatus.BAD_REQUEST);
                             }
                         }else {
                         	return BackendUtils.getResponseEntity("Question est utilisée dans une Rubrique dans une Evaluation", HttpStatus.BAD_REQUEST);

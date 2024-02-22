@@ -45,4 +45,8 @@ public interface RubriqueQuestionRepository extends JpaRepository<RubriqueQuesti
 
 
 
+	@Query("select rq from RubriqueQuestion rq where rq.idQuestion = :idRubrique")
+	List<RubriqueQuestion> findByIdQuestion(@Param("idRubrique") Question idRubrique);
+
+
 }

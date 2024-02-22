@@ -34,13 +34,13 @@ public class QualificatifController {
         return qualificatifService.getQualificatifById(id);
     }
 
-    @PutMapping("/update")
+    @PostMapping("/update")
     public Qualificatif updateQualificatif(@RequestBody Qualificatif qualificatif){
         return qualificatifService.updateQualificatif(qualificatif);
     }
 
 
-    @DeleteMapping("/delete/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteQualificatif(@PathVariable int id){
         return qualificatifService.deleteQualificatif(id);
     }

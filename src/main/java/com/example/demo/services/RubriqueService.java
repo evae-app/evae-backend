@@ -1,12 +1,13 @@
 package com.example.demo.services;
 
+import com.example.demo.DTO.RubriqueDTO;
 import com.example.demo.models.Rubrique;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface RubriqueService {
-    List<Rubrique> getAllRubriques();
+    List<RubriqueDTO> getAllRubriques();
     Rubrique getRubriqueById(Integer id);
     Rubrique createRubrique(Rubrique rubrique);
     Rubrique updateRubrique(Integer id, Rubrique rubrique);
@@ -16,4 +17,6 @@ public interface RubriqueService {
 
     void deleteRubriqueByDesignation(String designation);
     Optional<Rubrique> findRubriqueByDesignation(String designation);
+
+    void updateOrdre(List<Rubrique> updatedRubriquesData);
 }

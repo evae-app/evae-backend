@@ -1,7 +1,10 @@
 package com.example.demo.controllers;
 
+import com.example.demo.DTO.RubriqueDTO;
+import com.example.demo.constants.EvaeBackendConstants;
 import com.example.demo.models.Rubrique;
 import com.example.demo.services.RubriqueService;
+import com.example.demo.utils.BackendUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +20,7 @@ public class RubriqueController {
     private RubriqueService rubriqueService;
 
     @GetMapping
-    public List<Rubrique> getAllRubriques() {
+    public List<RubriqueDTO> getAllRubriques() {
         return rubriqueService.getAllRubriques();
     }
 
@@ -30,6 +33,17 @@ public class RubriqueController {
         Optional<Rubrique> rubrique = rubriqueService.findRubriqueByDesignation(designation);
         return rubrique.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PostMapping("/update-ordre")
+    public ResponseEntity<String> updateOrdre(@RequestBody List<Rubrique> updatedRubriquesData) {
+        try {
+            rubriqueService.updateOrdre(updatedRubriquesData);
+            return ResponseEntity.ok("Ordre attributes updated successfully");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return BackendUtils.getResponseEntity(EvaeBackendConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @PostMapping

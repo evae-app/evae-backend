@@ -1,15 +1,13 @@
 package com.example.demo.services;
 
-import com.example.demo.DTO.QualificatifDTO;
-import com.example.demo.DTO.QuestionDTO;
-import com.example.demo.DTO.RubriqueDTO;
-import com.example.demo.DTO.RubriqueQuestionDTO;
+import com.example.demo.DTO.*;
 import com.example.demo.exception.DuplicateEntityException;
 import com.example.demo.exception.OrdreException;
 import com.example.demo.exception.RubriqueNotFoundException;
 import com.example.demo.exception.RubriqueQuestionNotFoundException;
 import com.example.demo.models.*;
 import com.example.demo.repositories.QuestionRepository;
+import com.example.demo.repositories.RubriqueEvaluationRepository;
 import com.example.demo.repositories.RubriqueQuestionRepository;
 import com.example.demo.repositories.RubriqueRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +25,10 @@ public class RubriqueQuestionServiceImpl implements RubriqueQuestionService{
     private RubriqueRepository rubriqueRepository;
     @Autowired
     private QuestionRepository questionRepository;
+
+    @Autowired
+    private RubriqueEvaluationRepository rubriqueEvaluationRepository ;
+
 
     public RubriqueQuestion createRubriqueQuestion(RubriqueQuestionDTO rubriqueQuestionDTO) {
 
@@ -259,6 +261,74 @@ public class RubriqueQuestionServiceImpl implements RubriqueQuestionService{
         rubriqueQuestionRepository.save(rubriqueQuestion2);
     }
 
+@   Override
+    public List<RubriqueQuestionDTOO> getAllRubriquesQuestions() {
+        List<RubriqueQuestion> rubquestions = rubriqueQuestionRepository.findAll();
+        List<RubriqueQuestionDTOO> RubriqueQuestionDTOOs = new ArrayList<>();
+
+        for (RubriqueQuestion rubriquequestion : rubquestions) {
+            RubriqueQuestionDTOO RubriqueQuestionDTOO = new RubriqueQuestionDTOO();
+            RubriqueDTO rub = new RubriqueDTO();
+            rub.setId(rubriquequestion.getIdRubrique().getId());
+            rub.setType(rubriquequestion.getIdRubrique().getType());
+            rub.setDesignation(rubriquequestion.getIdRubrique().getDesignation());
+            rub.setOrdre(rubriquequestion.getIdRubrique().getOrdre());
+
+            RubriqueQuestionDTOO.setRUBRIQUE(rub);
+
+            List<QuestionDTO> questionsdto = new ArrayList<>();
+            List<RubriqueQuestion> rubques = rubriqueQuestionRepository.findByIdQuestion(rubriquequestion.getIdQuestion());
+
+            List<Question> questionList = new ArrayList<>();
+            for(RubriqueQuestion rubb : rubques){
+                questionList.add(rubb.getIdQuestion());
+            }
+
+
+            for(Question que : questionList){
+                QuestionDTO q = new QuestionDTO();
+                q.setId(que.getId());
+                q.setOrdre(que.getId().longValue());
+                q.setType(que.getType());
+                q.setIntitule(que.getIntitule());
+                QualificatifDTO qua = new QualificatifDTO();
+                qua.setId(que.getIdQualificatif().getId());
+                qua.setMaximal(que.getIdQualificatif().getMaximal());
+                qua.setMinimal(que.getIdQualificatif().getMinimal());
+                q.setIdQualificatif(qua);
+
+                questionsdto.add(q);
+
+            }
+
+            RubriqueQuestionDTOO.setQuestions(questionsdto);
+
+
+            RubriqueQuestionDTOOs.add(RubriqueQuestionDTOO);
+        }
+
+        return RubriqueQuestionDTOOs;
+    }
+
+
+    public String deleteRubriqueComposee(int idRubrique){
+
+        //List<RubriqueQuestion> rubriqueQuestions = rubriqueQuestionRepository.findByIdRubrique(idRubrique);
+
+        Rubrique rubrique = rubriqueRepository.findById(idRubrique).get();
+
+        List<RubriqueEvaluation> rubevae = rubriqueEvaluationRepository.findByIdRubrique(rubrique);
+
+       //ubriqueQuestionRepository.deleteAll();
+
+        if(rubevae.isEmpty()){
+            rubriqueQuestionRepository.deleteByRubriqueId(idRubrique);
+            return "Rubrique composee est suprimee avec succes";
+        }else {
+            return "RUbrique composee est utilisee dans une evaluation";
+        }
+
+    }
 
 
 }

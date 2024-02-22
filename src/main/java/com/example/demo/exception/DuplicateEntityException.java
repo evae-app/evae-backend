@@ -3,6 +3,6 @@ package com.example.demo.exception;
 public class DuplicateEntityException extends RuntimeException {
 
     public DuplicateEntityException(String message) {
-        super(message);
+        super("Opération impossible, " + message + " existe déjà");
     }
 }

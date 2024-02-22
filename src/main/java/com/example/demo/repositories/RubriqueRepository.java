@@ -14,8 +14,14 @@ import org.springframework.data.jpa.repository.Query;
 public interface RubriqueRepository extends JpaRepository<Rubrique, Integer> {
     @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Rubrique r WHERE r.designation = :designation")
     boolean existsByDesignation(@Param("designation") String designation);
+    @Query("SELECT MAX(r.ordre) FROM Rubrique r")
+    Long findMaxOrdre();
 
-    boolean existsByDesignationAndIdNot(String designation, Integer id);
+    @Query("SELECT CASE WHEN COUNT(r) > 0 THEN true ELSE false END FROM Rubrique r WHERE r.designation = :designation AND r.id <> :id")
+    boolean existsByDesignationAndIdNot(@Param("designation") String designation, @Param("id") Integer id);
+
+
+
     Optional<Rubrique> findByDesignation(String designation);
     void deleteByDesignation(String designation);
 }

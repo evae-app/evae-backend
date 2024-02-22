@@ -1,6 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.DTO.RubriqueQuestionDTO;
+import com.example.demo.DTO.RubriqueQuestionDTOO;
 import com.example.demo.exception.RubriqueNotFoundException;
 import com.example.demo.exception.RubriqueQuestionNotFoundException;
 import com.example.demo.models.Question;
@@ -32,5 +33,7 @@ public interface RubriqueQuestionService {
     public Map<Integer, List<RubriqueQuestionDTO>> getQuestionsGroupedByRubriqueOrderedByOrdre();
 
 
+    List<RubriqueQuestionDTOO> getAllRubriquesQuestions();
 
+    public String deleteRubriqueComposee(int idRubrique);
 }

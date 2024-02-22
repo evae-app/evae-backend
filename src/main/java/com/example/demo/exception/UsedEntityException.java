@@ -1,7 +1,7 @@
 package com.example.demo.exception;
 
 public class UsedEntityException extends  RuntimeException{
-    public UsedEntityException() {
-        super(" Entité en cours d'utilisation");
+    public UsedEntityException(String message) {
+        super("Opération impossible," + message + " en cours d'utilisation");
     }
 }

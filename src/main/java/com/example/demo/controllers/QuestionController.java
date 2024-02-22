@@ -42,7 +42,7 @@ public class QuestionController {
         return BackendUtils.getResponseEntity(EvaeBackendConstants.SOMETHING_WENT_WRONG , HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@PutMapping(value="/update")
+	@PostMapping(value="/update")
 	public ResponseEntity<String> modifierQuestion(@RequestBody Map<String, String> requestMap) {
 		try {
 			return questionservice.update(requestMap);
@@ -52,7 +52,7 @@ public class QuestionController {
 		return BackendUtils.getResponseEntity(EvaeBackendConstants.SOMETHING_WENT_WRONG, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 	
-	@DeleteMapping(value="/delete/{id}")
+	@GetMapping(value="/delete/{id}")
 	public ResponseEntity<String> SupprimerQuestion(@PathVariable("id") int id) {
 		try {
 			return questionservice.deleteQuestion(id);

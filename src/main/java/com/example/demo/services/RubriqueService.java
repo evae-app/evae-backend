@@ -10,13 +10,8 @@ public interface RubriqueService {
     List<RubriqueDTO> getAllRubriques();
     Rubrique getRubriqueById(Integer id);
     Rubrique createRubrique(Rubrique rubrique);
-    Rubrique updateRubrique(Integer id, Rubrique rubrique);
-
-    Rubrique updateRubriqueByDesignation(String designation, Rubrique rubrique);
+    Rubrique updateRubrique(Integer id, RubriqueDTO rubriqueDTO);
     void deleteRubrique(Integer id);
-
-    void deleteRubriqueByDesignation(String designation);
     Optional<Rubrique> findRubriqueByDesignation(String designation);
-
     void updateOrdre(List<Rubrique> updatedRubriquesData);
 }

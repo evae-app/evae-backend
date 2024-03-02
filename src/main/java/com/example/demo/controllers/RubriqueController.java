@@ -39,7 +39,7 @@ public class RubriqueController {
     public ResponseEntity<String> updateOrdre(@RequestBody List<Rubrique> updatedRubriquesData) {
         try {
             rubriqueService.updateOrdre(updatedRubriquesData);
-            return ResponseEntity.ok("Ordre attributes updated successfully");
+            return ResponseEntity.ok("Ordre modifié avec succès");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -53,22 +53,13 @@ public class RubriqueController {
     }
 
     @PostMapping("/update/{id}")
-    public Rubrique updateRubrique(@PathVariable Integer id, @RequestBody Rubrique rubrique) {
-        return rubriqueService.updateRubrique(id, rubrique);
-    }
-    @PostMapping("/update/designation/{designation}")
-    public Rubrique updateRubriqueByDesignation(@PathVariable String designation, @RequestBody Rubrique rubrique) {
-        return rubriqueService.updateRubriqueByDesignation(designation, rubrique);
+    public Rubrique updateRubrique(@PathVariable Integer id, @RequestBody RubriqueDTO rubriqueDTO) {
+        return rubriqueService.updateRubrique(id, rubriqueDTO);
     }
 
     @GetMapping("/delete/{id}")
     public ResponseEntity<Void> deleteRubrique(@PathVariable Integer id) {
         rubriqueService.deleteRubrique(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-    @GetMapping("/delete/designation/{designation}")
-    public ResponseEntity<Void> deleteRubriqueByDesignation(@PathVariable String designation) {
-        rubriqueService.deleteRubriqueByDesignation(designation);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

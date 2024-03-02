@@ -35,7 +35,6 @@ public class RubriqueQuestionController {
         return new ResponseEntity<>(rubriqueQuestionDTOs, HttpStatus.OK);
     }
 
-    //aprem
     @GetMapping("/groupedByRubrique")
     public ResponseEntity<Map<Integer, List<RubriqueQuestionDTO>>> getQuestionsGroupedByRubrique() {
         Map<Integer, List<RubriqueQuestionDTO>> groupedQuestions = rubriqueQuestionService.getQuestionsGroupedByRubrique();

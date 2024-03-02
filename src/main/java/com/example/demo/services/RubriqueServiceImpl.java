@@ -17,22 +17,18 @@ import java.util.Optional;
 public class RubriqueServiceImpl implements RubriqueService{
     @Autowired
     private RubriqueRepository rubriqueRepository;
-
     @Override
     public List<RubriqueDTO> getAllRubriques() {
-        List<Rubrique> questions = rubriqueRepository.findAll();
+        List<Rubrique> rubriques = rubriqueRepository.findAll();
         List<RubriqueDTO> RubriqueDTOs = new ArrayList<>();
-
-        for (Rubrique rubrique : questions) {
+        for (Rubrique rubrique : rubriques) {
             RubriqueDTO RubriqueDTO = new RubriqueDTO();
-
             RubriqueDTO.setDesignation(rubrique.getDesignation());
             RubriqueDTO.setOrdre(rubrique.getOrdre());
             RubriqueDTO.setType(rubrique.getType());
             RubriqueDTO.setId(rubrique.getId());
             RubriqueDTOs.add(RubriqueDTO);
         }
-
         return RubriqueDTOs;
     }
     @Override
@@ -42,61 +38,25 @@ public class RubriqueServiceImpl implements RubriqueService{
 
     @Override
     public Rubrique createRubrique(Rubrique rubrique) {
-        /*if (rubrique.getNoEnseignant() == null) {
-            rubrique.setType("RBS");
-        } else {
-            rubrique.setType("RBP");
-        }*/
         if (rubriqueRepository.existsByDesignation(rubrique.getDesignation())) {
-            throw new DuplicateEntityException(" rubrique");
+            throw new DuplicateEntityException("rubrique");
         }
         Long maxOrdre = rubriqueRepository.findMaxOrdre();
-
         rubrique.setOrdre((maxOrdre != null) ? maxOrdre + 1 : 1);
         return rubriqueRepository.save(rubrique);
     }
 
     @Override
-    public Rubrique updateRubrique(Integer id, Rubrique rubrique) {
+    public Rubrique updateRubrique(Integer id, RubriqueDTO rubriqueDTO) {
         if (rubriqueRepository.existsById(id)) {
             Rubrique existingRubrique = rubriqueRepository.findById(id).orElse(null);
-
-            if (rubriqueRepository.existsByDesignationAndIdNot(rubrique.getDesignation(), id)) {
+            if (rubriqueRepository.existsByDesignationAndIdNot(rubriqueDTO.getDesignation(), id)) {
                 throw new DuplicateEntityException("rubrique");
             }
-
             if (isRubriqueUsedInEvaluation(existingRubrique)) {
                 throw new UsedEntityException("rubrique");
             }
-
-            rubrique.setId(id);
-
-            /*if (rubrique.getNoEnseignant() == null) {
-                rubrique.setType("RBS");
-            } else {
-                rubrique.setType("RBP");
-            }*/
-            return rubriqueRepository.save(rubrique);
-        } else {
-            throw new NotFoundEntityException("rubrique");
-        }
-    }
-
-
-
-
-    public Rubrique updateRubriqueByDesignation(String designation, Rubrique updatedRubrique) {
-        Optional<Rubrique> optionalRubrique = rubriqueRepository.findByDesignation(designation);
-
-        if (optionalRubrique.isPresent()) {
-            Rubrique existingRubrique = optionalRubrique.get();
-
-
-            existingRubrique.setType(updatedRubrique.getType());
-            existingRubrique.setNoEnseignant(updatedRubrique.getNoEnseignant());
-            existingRubrique.setDesignation(updatedRubrique.getDesignation());
-            existingRubrique.setOrdre(updatedRubrique.getOrdre());
-
+            existingRubrique.setDesignation(rubriqueDTO.getDesignation());
             return rubriqueRepository.save(existingRubrique);
         } else {
             throw new NotFoundEntityException("rubrique");
@@ -116,32 +76,13 @@ public class RubriqueServiceImpl implements RubriqueService{
         }
     }
 
-    @Override
-    public void deleteRubriqueByDesignation(String designation) {
-        Optional<Rubrique> optionalRubrique = rubriqueRepository.findByDesignation(designation);
-        if (optionalRubrique.isPresent()) {
-            Integer id = optionalRubrique.get().getId();
-            Rubrique existingRubrique = rubriqueRepository.findById(id).orElse(null);
-            if (isRubriqueUsedInEvaluation(existingRubrique)) {
-                throw new UsedEntityException("rubrique");
-            }
-                rubriqueRepository.deleteById(id);
-        } else {
-            throw new NotFoundEntityException("rubrique");
-        }
-    }
-
-
     private boolean isRubriqueUsedInEvaluation(Rubrique rubrique) {
-        // Vérifier si rubrique est null
         if (rubrique == null) {
-            return false; // Ou lancez une exception si nécessaire
+            return false;
         }
-        // Utiliser la méthode isEmpty() sur la liste uniquement si elle n'est pas null
         return rubrique.getRubriqueEvaluations() != null && !rubrique.getRubriqueEvaluations().isEmpty() ||
                 rubrique.getRubriqueQuestions() != null && !rubrique.getRubriqueQuestions().isEmpty();
     }
-
 
     @Override
     public Optional<Rubrique> findRubriqueByDesignation(String designation) {

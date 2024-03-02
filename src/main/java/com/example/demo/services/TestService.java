@@ -5,16 +5,15 @@ public class TestService {
 	public static boolean isInteger(String str) {
 	    try {
 	        Integer.parseInt(str);
-	        return true; // La conversion a réussi, la chaîne est un entier valide.
+	        return true;
 	    } catch (NumberFormatException e) {
-	        return false; // La chaîne n'est pas un entier valide.
+	        return false;
 	    }
 	}
 	
 	public static boolean isStartWithNumber(String inputString) {
 	    if (inputString != null && !inputString.isEmpty()) {
 	        char firstChar = inputString.charAt(0);
-	        // Check if the first character is a digit (0-9)
 	        if (Character.isDigit(firstChar)) {
 	            return true;
 	        }
@@ -28,7 +27,7 @@ public class TestService {
 	    } else if (number < 0) {
 	        return false;
 	    } else {
-	        return false; // Le nombre est égal à zéro.
+	        return false;
 	    }
 	}
 	
@@ -38,7 +37,7 @@ public class TestService {
 	    } else if (number < 0) {
 	        return false;
 	    } else {
-	        return false; // Le nombre est égal à zéro.
+	        return false;
 	    }
 	}
 	

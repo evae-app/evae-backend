@@ -313,13 +313,9 @@ public class RubriqueQuestionServiceImpl implements RubriqueQuestionService{
 
     public String deleteRubriqueComposee(int idRubrique){
 
-        //List<RubriqueQuestion> rubriqueQuestions = rubriqueQuestionRepository.findByIdRubrique(idRubrique);
-
         Rubrique rubrique = rubriqueRepository.findById(idRubrique).get();
 
         List<RubriqueEvaluation> rubevae = rubriqueEvaluationRepository.findByIdRubrique(rubrique);
-
-       //ubriqueQuestionRepository.deleteAll();
 
         if(rubevae.isEmpty()){
             rubriqueQuestionRepository.deleteByRubriqueId(idRubrique);

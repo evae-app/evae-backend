@@ -17,7 +17,6 @@ public class QualificatifController {
     @Autowired
     private QualificatifService qualificatifService;
 
-
     @PostMapping("/addQualificatif")
     public Qualificatif addQualificatif(@RequestBody Qualificatif qualificatif){
         return qualificatifService.saveQualificatif(qualificatif);
@@ -39,13 +38,9 @@ public class QualificatifController {
         return qualificatifService.updateQualificatif(qualificatif);
     }
 
-
     @GetMapping("/delete/{id}")
     public String deleteQualificatif(@PathVariable int id){
         return qualificatifService.deleteQualificatif(id);
     }
-
-
-
 
 }

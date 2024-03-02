@@ -17,5 +17,4 @@ public class RubriqueDTO {
     private String type;
     private String designation;
     private Long ordre;
-    //private List<Long> questionIds;
 }

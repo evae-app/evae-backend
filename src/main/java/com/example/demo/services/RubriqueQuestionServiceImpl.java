@@ -1,10 +1,7 @@
 package com.example.demo.services;
 
 import com.example.demo.DTO.*;
-import com.example.demo.exception.DuplicateEntityException;
-import com.example.demo.exception.OrdreException;
-import com.example.demo.exception.RubriqueNotFoundException;
-import com.example.demo.exception.RubriqueQuestionNotFoundException;
+import com.example.demo.exception.*;
 import com.example.demo.models.*;
 import com.example.demo.repositories.QuestionRepository;
 import com.example.demo.repositories.RubriqueEvaluationRepository;
@@ -30,6 +27,66 @@ public class RubriqueQuestionServiceImpl implements RubriqueQuestionService{
     private RubriqueEvaluationRepository rubriqueEvaluationRepository ;
 
 
+//USED
+    @Override
+    public List<RubriqueQuestionDTOO> getAll() {
+        List<RubriqueQuestion> rubquestions = rubriqueQuestionRepository.findAll();
+        Map<Integer, RubriqueQuestionDTOO> rubriqueMap = new HashMap<>();
+
+        for (RubriqueQuestion rubriquequestion : rubquestions) {
+            RubriqueDTO rub = new RubriqueDTO();
+            rub.setId(rubriquequestion.getIdRubrique().getId());
+            rub.setType(rubriquequestion.getIdRubrique().getType());
+            rub.setDesignation(rubriquequestion.getIdRubrique().getDesignation());
+            rub.setOrdre(rubriquequestion.getIdRubrique().getOrdre());
+
+            RubriqueQuestionDTOO rubriqueQuestionDTOO = rubriqueMap.getOrDefault(rub.getId(), new RubriqueQuestionDTOO());
+            rubriqueQuestionDTOO.setRUBRIQUE(rub);
+
+            QuestionDTO q = new QuestionDTO();
+            q.setId(rubriquequestion.getIdQuestion().getId());
+            q.setOrdre(rubriquequestion.getOrdre());
+            q.setType(rubriquequestion.getIdQuestion().getType());
+            q.setIntitule(rubriquequestion.getIdQuestion().getIntitule());
+            QualificatifDTO qua = new QualificatifDTO();
+            qua.setId(rubriquequestion.getIdQuestion().getIdQualificatif().getId());
+            qua.setMaximal(rubriquequestion.getIdQuestion().getIdQualificatif().getMaximal());
+            qua.setMinimal(rubriquequestion.getIdQuestion().getIdQualificatif().getMinimal());
+            q.setIdQualificatif(qua);
+
+            rubriqueQuestionDTOO.addQuestion(q);
+            rubriqueMap.put(rub.getId(), rubriqueQuestionDTOO);
+        }
+
+        return new ArrayList<>(rubriqueMap.values());
+    }
+
+    //USED
+    @Override
+    public String deleteRubriqueQuestionByIds(Integer rubriqueId, Integer questionId) throws RubriqueQuestionNotFoundException {
+        Optional<RubriqueQuestion> rubriqueQuestionOptional = rubriqueQuestionRepository.findById(new RubriqueQuestionId(rubriqueId, questionId));
+        if (rubriqueQuestionOptional.isPresent()) {
+            rubriqueQuestionRepository.deleteById(new RubriqueQuestionId(rubriqueId, questionId));
+            return "Deletion successful.";
+        } else {
+            throw new RubriqueQuestionNotFoundException("RubriqueQuestion with rubriqueId " + rubriqueId + " and questionId " + questionId + " not found.");
+        }
+    }
+
+
+    // USED
+    @Override
+    public String deleteRubriqueQuestionsByRubriqueId(Integer rubriqueId) throws RubriqueNotFoundException {
+        Optional<Rubrique> rubriqueOptional = rubriqueRepository.findById(rubriqueId);
+        if (rubriqueOptional.isPresent()) {
+            rubriqueQuestionRepository.deleteByRubriqueId(rubriqueId);
+            return "Deletion successful.";
+        } else {
+            throw new RubriqueNotFoundException("Rubrique with ID " + rubriqueId + " not found.");
+        }
+    }
+
+    //USED
     public RubriqueQuestion createRubriqueQuestion(RubriqueQuestionDTO rubriqueQuestionDTO) {
 
         if (rubriqueQuestionRepository.existsById_IdRubriqueAndId_IdQuestion(
@@ -52,15 +109,33 @@ public class RubriqueQuestionServiceImpl implements RubriqueQuestionService{
 
             rubriqueQuestion.setId(rubriqueQuestionId);
             Rubrique rubrique = rubriqueRepository.findById(rubriqueQuestionDTO.getIdRubrique())
-                    .orElseThrow(() -> new RuntimeException("Rubrique not found"));
+                    .orElseThrow(() -> new NotFoundEntityException("rubrique"));
             rubriqueQuestion.setIdRubrique(rubrique);
 
             Question question = questionRepository.findById(rubriqueQuestionDTO.getIdQuestion())
-                    .orElseThrow(() -> new RuntimeException("Question not found"));
+                    .orElseThrow(() -> new NotFoundEntityException("question"));
             rubriqueQuestion.setIdQuestion(question);
 
             rubriqueQuestion.setOrdre(rubriqueQuestionDTO.getOrdre());
             return rubriqueQuestionRepository.save(rubriqueQuestion);
+    }
+
+
+
+    @Override
+    public String deleteRubriqueComposee(int idRubrique){
+
+        Rubrique rubrique = rubriqueRepository.findById(idRubrique).get();
+
+        List<RubriqueEvaluation> rubevae = rubriqueEvaluationRepository.findByIdRubrique(rubrique);
+
+        if(rubevae.isEmpty()){
+            rubriqueQuestionRepository.deleteByRubriqueId(idRubrique);
+            return "Rubrique composee est suprimee avec succes";
+        }else {
+            return "RUbrique composee est utilisee dans une evaluation";
+        }
+
     }
 
     public Set<Question> getQuestionsByRubrique(Rubrique rubrique) {
@@ -164,30 +239,6 @@ public class RubriqueQuestionServiceImpl implements RubriqueQuestionService{
 
 
 
-    @Override
-    public String deleteRubriqueQuestionsByRubriqueId(Integer rubriqueId) throws RubriqueNotFoundException {
-        Optional<Rubrique> rubriqueOptional = rubriqueRepository.findById(rubriqueId);
-        if (rubriqueOptional.isPresent()) {
-            rubriqueQuestionRepository.deleteByRubriqueId(rubriqueId);
-            return "Deletion successful.";
-        } else {
-            throw new RubriqueNotFoundException("Rubrique with ID " + rubriqueId + " not found.");
-        }
-    }
-
-
-    @Override
-    public String deleteRubriqueQuestionByIds(Integer rubriqueId, Integer questionId) throws RubriqueQuestionNotFoundException {
-        Optional<RubriqueQuestion> rubriqueQuestionOptional = rubriqueQuestionRepository.findById(new RubriqueQuestionId(rubriqueId, questionId));
-        if (rubriqueQuestionOptional.isPresent()) {
-            rubriqueQuestionRepository.deleteById(new RubriqueQuestionId(rubriqueId, questionId));
-            return "Deletion successful.";
-        } else {
-            throw new RubriqueQuestionNotFoundException("RubriqueQuestion with rubriqueId " + rubriqueId + " and questionId " + questionId + " not found.");
-        }
-    }
-
-
     //aprem2
     public Map<Integer, List<RubriqueQuestionDTO>> getQuestionsGroupedByRubriqueOrderedByOrdre() {
         List<RubriqueQuestion> rubriqueQuestions = rubriqueQuestionRepository.findAll();
@@ -261,70 +312,10 @@ public class RubriqueQuestionServiceImpl implements RubriqueQuestionService{
         rubriqueQuestionRepository.save(rubriqueQuestion2);
     }
 
-@   Override
-    public List<RubriqueQuestionDTOO> getAllRubriquesQuestions() {
-        List<RubriqueQuestion> rubquestions = rubriqueQuestionRepository.findAll();
-        List<RubriqueQuestionDTOO> RubriqueQuestionDTOOs = new ArrayList<>();
-
-        for (RubriqueQuestion rubriquequestion : rubquestions) {
-            RubriqueQuestionDTOO RubriqueQuestionDTOO = new RubriqueQuestionDTOO();
-            RubriqueDTO rub = new RubriqueDTO();
-            rub.setId(rubriquequestion.getIdRubrique().getId());
-            rub.setType(rubriquequestion.getIdRubrique().getType());
-            rub.setDesignation(rubriquequestion.getIdRubrique().getDesignation());
-            rub.setOrdre(rubriquequestion.getIdRubrique().getOrdre());
-
-            RubriqueQuestionDTOO.setRUBRIQUE(rub);
-
-            List<QuestionDTO> questionsdto = new ArrayList<>();
-            List<RubriqueQuestion> rubques = rubriqueQuestionRepository.findByIdQuestion(rubriquequestion.getIdQuestion());
-
-            List<Question> questionList = new ArrayList<>();
-            for(RubriqueQuestion rubb : rubques){
-                questionList.add(rubb.getIdQuestion());
-            }
 
 
-            for(Question que : questionList){
-                QuestionDTO q = new QuestionDTO();
-                q.setId(que.getId());
-                q.setOrdre(que.getId().longValue());
-                q.setType(que.getType());
-                q.setIntitule(que.getIntitule());
-                QualificatifDTO qua = new QualificatifDTO();
-                qua.setId(que.getIdQualificatif().getId());
-                qua.setMaximal(que.getIdQualificatif().getMaximal());
-                qua.setMinimal(que.getIdQualificatif().getMinimal());
-                q.setIdQualificatif(qua);
-
-                questionsdto.add(q);
-
-            }
-
-            RubriqueQuestionDTOO.setQuestions(questionsdto);
 
 
-            RubriqueQuestionDTOOs.add(RubriqueQuestionDTOO);
-        }
-
-        return RubriqueQuestionDTOOs;
-    }
-
-
-    public String deleteRubriqueComposee(int idRubrique){
-
-        Rubrique rubrique = rubriqueRepository.findById(idRubrique).get();
-
-        List<RubriqueEvaluation> rubevae = rubriqueEvaluationRepository.findByIdRubrique(rubrique);
-
-        if(rubevae.isEmpty()){
-            rubriqueQuestionRepository.deleteByRubriqueId(idRubrique);
-            return "Rubrique composee est suprimee avec succes";
-        }else {
-            return "RUbrique composee est utilisee dans une evaluation";
-        }
-
-    }
 
 
 }

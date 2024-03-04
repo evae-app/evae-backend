@@ -51,7 +51,7 @@ class RubriqueQuestionServiceImplTest {
         // Appel de la méthode à tester
         List<RubriqueQuestionDTO> result = rubriqueQuestionService.getAllRubriqueQuestion();
 
-        // Vérifications
+        //
         assertEquals(2, result.size());
         assertEquals(1, result.get(0).getIdRubrique());
         assertEquals(1, result.get(0).getIdQuestion());

@@ -26,7 +26,7 @@ public interface RubriqueQuestionService {
     public Map<Integer, List<RubriqueQuestionDTO>> getQuestionsGroupedByRubriqueOrderedByOrdre();
 
 
-    List<RubriqueQuestionDTOO> getAllRubriquesQuestions();
+    List<RubriqueQuestionDTOO> getAll();
 
     public String deleteRubriqueComposee(int idRubrique);
 }

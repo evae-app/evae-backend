@@ -29,10 +29,46 @@ public class RubriqueQuestionController {
     private RubriqueRepository rubriqueRepository;
 
 
-    @GetMapping("/getAllRubriquesQuestions")
+    // USED
+    @GetMapping("/getAll")
     public ResponseEntity<List<RubriqueQuestionDTOO>> getAllRubriqueQuestion() {
-        List<RubriqueQuestionDTOO> rubriqueQuestionDTOs = rubriqueQuestionService.getAllRubriquesQuestions();
+        List<RubriqueQuestionDTOO> rubriqueQuestionDTOs = rubriqueQuestionService.getAll();
         return new ResponseEntity<>(rubriqueQuestionDTOs, HttpStatus.OK);
+    }
+
+    // USED
+    @GetMapping("/delete/{rubriqueId}/{questionId}")
+    public ResponseEntity<?> deleteRubriqueQuestionByIds(@PathVariable Integer rubriqueId, @PathVariable Integer questionId) {
+        try {
+            rubriqueQuestionService.deleteRubriqueQuestionByIds(rubriqueId, questionId);
+            return ResponseEntity.ok("Deletion successful.");
+        } catch (RubriqueQuestionNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    // USED
+    @GetMapping("/delete/{rubriqueId}")
+    public ResponseEntity<?> deleteRubriqueQuestionsByRubriqueId(@PathVariable Integer rubriqueId) {
+        try {
+            rubriqueQuestionService.deleteRubriqueQuestionsByRubriqueId(rubriqueId);
+            return ResponseEntity.ok("Deletion successful.");
+        } catch (RubriqueNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    // USED
+    @PostMapping("/add")
+    public ResponseEntity<String> createRubriqueQuestion(@RequestBody RubriqueQuestionDTO rubriqueQuestionDTO) {
+        RubriqueQuestion rubriqueQuestion = rubriqueQuestionService.createRubriqueQuestion(rubriqueQuestionDTO);
+        return ResponseEntity.ok("enregistrement reussie");
+    }
+
+    @GetMapping("/deleteRubriqueComposee/{rubriqueId}")
+    public ResponseEntity<String> deleteRubriqueComposee(@PathVariable Integer rubriqueId) {
+        rubriqueQuestionService.deleteRubriqueComposee(rubriqueId);
+        return ResponseEntity.ok("Deletion successful.");
     }
 
     @GetMapping("/groupedByRubrique")
@@ -41,11 +77,7 @@ public class RubriqueQuestionController {
         return new ResponseEntity<>(groupedQuestions, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<RubriqueQuestion> createRubriqueQuestion(@RequestBody RubriqueQuestionDTO rubriqueQuestionDTO) {
-        RubriqueQuestion rubriqueQuestion = rubriqueQuestionService.createRubriqueQuestion(rubriqueQuestionDTO);
-        return ResponseEntity.ok(rubriqueQuestion);
-    }
+
 
     @GetMapping("/{rubriqueId}/questions")
     public ResponseEntity<Set<Question>> getQuestionsByRubrique(@PathVariable Integer rubriqueId) {
@@ -57,32 +89,9 @@ public class RubriqueQuestionController {
     }
 
 
-    @GetMapping("/delete/{rubriqueId}")
-    public ResponseEntity<?> deleteRubriqueQuestionsByRubriqueId(@PathVariable Integer rubriqueId) {
-        try {
-            rubriqueQuestionService.deleteRubriqueQuestionsByRubriqueId(rubriqueId);
-            return ResponseEntity.ok("Deletion successful.");
-        } catch (RubriqueNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
-
-    @GetMapping("/{rubriqueId}")
-    public ResponseEntity<String> deleteRubriqueComposee(@PathVariable Integer rubriqueId) {
-            rubriqueQuestionService.deleteRubriqueComposee(rubriqueId);
-            return ResponseEntity.ok("Deletion successful.");
-    }
 
 
-    @GetMapping("/delete/{rubriqueId}/{questionId}")
-    public ResponseEntity<?> deleteRubriqueQuestionByIds(@PathVariable Integer rubriqueId, @PathVariable Integer questionId) {
-        try {
-            rubriqueQuestionService.deleteRubriqueQuestionByIds(rubriqueId, questionId);
-            return ResponseEntity.ok("Deletion successful.");
-        } catch (RubriqueQuestionNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-    }
+
 
 
 
